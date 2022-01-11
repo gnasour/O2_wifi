@@ -7,6 +7,8 @@
 #include <string.h>
 #include <netdb.h>
 
+int init(int);
+
 int main(int argc, char* argv[]){
   int sockfd, newfd;
   struct addrinfo hints, *res, *p;
@@ -24,11 +26,14 @@ int main(int argc, char* argv[]){
   while(1){
     newfd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
     if(!fork()){
-      
+      //init(newfd);
+      char buff[512];
+      read(newfd, buff,sizeof buff);
+      exit(0);
     }else{
       printf("Parent process, closing socket\n");
       close(sockfd);
-      exit(1);
+      exit(0);
     }
   }
 }
@@ -37,5 +42,8 @@ int main(int argc, char* argv[]){
 int init(int sock){
   int oxy_val = 0;
   while(1){
-    read(sock, &oxy_val, sizeof int);
+    read(sock, &oxy_val, sizeof(int));
+    printf("%d\n", oxy_val);
   }
+  return -1;
+}
