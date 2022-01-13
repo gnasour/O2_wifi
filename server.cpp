@@ -20,7 +20,10 @@ int main(int argc, char* argv[]){
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = AI_PASSIVE;
-  getaddrinfo("192.168.1.199", "1025", &hints, &res);
+  if(getaddrinfo("192.168.1.199", "1025", &hints, &res) != 0){
+    perror("ERROR AT GETADDRINFO");
+    exit(2);
+  }
   sockfd = socket(PF_INET, SOCK_STREAM, 0);
   bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
