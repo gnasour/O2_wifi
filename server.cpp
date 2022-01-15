@@ -30,6 +30,7 @@ int main(int argc, char* argv[]){
   }
   bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
+  //Main loop
   while(1){
     newfd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
     if(!fork()){
