@@ -25,6 +25,9 @@ int main(int argc, char* argv[]){
     exit(2);
   }
   sockfd = socket(PF_INET, SOCK_STREAM, 0);
+  if(sockfd < 0){
+    exit(-1);
+  }
   bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
   while(1){
