@@ -10,6 +10,7 @@ int open_db(){
   int err_code = sqlite3_open(DB_NAME, &db_obj);
   if(err_code){
     printf("Error in opening DB connection: ERR_CODE = %d\n", err_code);
+    sqlite3_close(db_obj);
     return 1;
   }
 
@@ -19,13 +20,14 @@ int open_db(){
 
 int exec_stmt(const char* stmt){
   sqlite3_stmt* smt;
-  const char** buf;
+  char** buf;
   if(db_obj){
-    sqlite3_prepare(db_obj, 
+    sqlite3_exec(db_obj, 
 		    "CREATE TABLE o2_rec(o2 varchar(30) primary key);",
-		    25,
-		    &smt,
-		    buf);
+		    NULL,
+		    NULL,
+		    NULL);
+    //sqlite3_free(buf);
     if(smt)
     sqlite3_step(smt);
     else
@@ -42,5 +44,8 @@ int exec_stmt(const char* stmt){
 int main(){
   open_db();
   exec_stmt("");
+  if(db_obj){
+    sqlite3_close(db_obj);
+  }
   return 0;
 }
