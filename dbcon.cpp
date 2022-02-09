@@ -23,7 +23,7 @@ int exec_stmt(const char* stmt){
   char** buf;
   if(db_obj){
     sqlite3_exec(db_obj, 
-		    "CREATE TABLE o2_rec(o2 varchar(30) primary key);",
+		    "INSERT INTO O2_rec VALUES('none');",
 		    NULL,
 		    NULL,
 		    NULL);
