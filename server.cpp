@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -51,7 +51,7 @@ int init(int sock){
   }
   return -1;
 }
-=======
+
 //#include <stdlib.h>
 //#include <stdio.h>
 //#include <sys/types.h>

@@ -23,13 +23,14 @@ void loop()
         return;
     }
     
-    client.println("Hello From ESP8266");
-    delay(250);
-    while (client.available() > 0)
+     while (client.available() > 0)
     {
-        char c = client.read();
-        client.println(c);
-    }
+         client.println("Hello From ESP8266");
+         delay(5000);
+ 
+//        char c = client.read();
+//        client.println(c);  
+      }
     
     client.stop();
     delay(5000);
