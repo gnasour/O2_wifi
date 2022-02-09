@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 948384276131d529742c62a995f05ae8aa893140
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -25,14 +28,22 @@ int main(int argc, char* argv[]){
     exit(2);
   }
   sockfd = socket(PF_INET, SOCK_STREAM, 0);
+  if(sockfd < 0){
+    exit(-1);
+  }
   bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
+  //Main loop
   while(1){
-    newfd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
+    newfd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&addr_size);
     if(!fork()){
       //init(newfd);
       char buff[512];
-      read(newfd, buff,sizeof buff);
+      
+	read(newfd, buff,(sizeof buff)-1);
+	buff[511] = '\0';
+	printf("%s\n", buff);
+      
       exit(0);
     }else{
       printf("Parent process, closing socket\n");
@@ -51,6 +62,7 @@ int init(int sock){
   }
   return -1;
 }
+<<<<<<< HEAD
 
 //#include <stdlib.h>
 //#include <stdio.h>
@@ -94,3 +106,5 @@ int init(int sock){
 //    read(sock, &oxy_val, sizeof int);
 //  }
 >>>>>>> cdb86928e0ae53a38a2e510dd3807066f0a54fb7
+=======
+>>>>>>> 948384276131d529742c62a995f05ae8aa893140
