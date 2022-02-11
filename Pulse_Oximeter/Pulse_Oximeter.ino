@@ -18,9 +18,10 @@ void setup()
 
 void loop()
 {
-    if (!client.connect(host, port))
+    while (!client.connect(host, port))
     {
-        return;
+       Serial.println("Could not connect to the client");
+       delay(1000);
     }
     
      while (client.available() > 0)

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 948384276131d529742c62a995f05ae8aa893140
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -11,44 +7,62 @@
 #include <string.h>
 #include <netdb.h>
 
+
+//After connection, initiate main server
 int init(int);
 
 int main(int argc, char* argv[]){
+
   int sockfd, newfd;
   struct addrinfo hints, *res, *p;
   char buff[INET6_ADDRSTRLEN];
   struct sockaddr_storage their_addr;
   int addr_size = sizeof their_addr;
-  memset(&hints, 0, sizeof hints);
+
+  //Packing addrinfo struct to retrieve necessary address information
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = AI_PASSIVE;
-  if(getaddrinfo("192.168.1.199", "1025", &hints, &res) != 0){
+
+  //Retrieving necessary address information of the local server
+  if(getaddrinfo(NULL, "1025", &hints, &res) != 0){
     perror("ERROR AT GETADDRINFO");
     exit(2);
   }
+
+  //Creating server socket to listen for connections
   sockfd = socket(PF_INET, SOCK_STREAM, 0);
   if(sockfd < 0){
     exit(-1);
   }
+
+  //Naming socket and listening
   bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
+  
   //Main loop
   while(1){
     newfd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&addr_size);
-    if(!fork()){
+
+    //Create child process to handle the accepted connection
+    int proc_id = fork();
+    if(proc_id == 0){
+
       //init(newfd);
+
+      close(sockfd);
+      
       char buff[512];
-      
-	read(newfd, buff,(sizeof buff)-1);
-	buff[511] = '\0';
-	printf("%s\n", buff);
-      
+     
+      int amt_read = read(newfd, buff,(sizeof buff)-1);
+      buff[amt_read] = '\0';
+      printf("%s\n", buff);
+
+      close(newfd);
       exit(0);
     }else{
       printf("Parent process, closing socket\n");
-      close(sockfd);
-      exit(0);
+      close(newfd);
     }
   }
 }
@@ -62,49 +76,3 @@ int init(int sock){
   }
   return -1;
 }
-<<<<<<< HEAD
-
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include <sys/types.h>
-//#include <sys/socket.h>
-//#include <arpa/inet.h>
-//#include <unistd.h>
-//#include <string.h>
-//#include <netdb.h>
-//
-//int main(int argc, char* argv[]){
-//  int sockfd, newfd;
-//  struct addrinfo hints, *res, *p;
-//  char buff[INET6_ADDRSTRLEN];
-//  struct sockaddr_storage their_addr;
-//  int addr_size = sizeof their_addr;
-//  memset(&hints, 0, sizeof hints);
-//  hints.ai_family = AF_INET;
-//  hints.ai_socktype = SOCK_STREAM;
-//  hints.ai_flags = AI_PASSIVE;
-//  getaddrinfo("192.168.1.199", "1025", &hints, &res);
-//  sockfd = socket(PF_INET, SOCK_STREAM, 0);
-//  bind(sockfd, res->ai_addr, res->ai_addrlen);
-//  listen(sockfd, 20);
-//  while(1){
-//    newfd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
-//    if(!fork()){
-//      
-//    }else{
-//      printf("Parent process, closing socket\n");
-//      close(sockfd);
-//      exit(1);
-//    }
-//  }
-//}
-//
-//
-//int init(int sock){
-//  int oxy_val = 0;
-//  while(1){
-//    read(sock, &oxy_val, sizeof int);
-//  }
->>>>>>> cdb86928e0ae53a38a2e510dd3807066f0a54fb7
-=======
->>>>>>> 948384276131d529742c62a995f05ae8aa893140
