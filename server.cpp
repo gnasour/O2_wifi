@@ -20,6 +20,7 @@ int main(int argc, char* argv[]){
   int addr_size = sizeof their_addr;
 
   //Packing addrinfo struct to retrieve necessary address information
+  memset(&hints, 0, sizeof hints);
   hints.ai_family = AF_INET;
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = AI_PASSIVE;
@@ -27,19 +28,20 @@ int main(int argc, char* argv[]){
   //Retrieving necessary address information of the local server
   if(getaddrinfo(NULL, "1025", &hints, &res) != 0){
     perror("ERROR AT GETADDRINFO");
-    exit(2);
+    //    exit(2);
   }
 
   //Creating server socket to listen for connections
   sockfd = socket(PF_INET, SOCK_STREAM, 0);
+  
   if(sockfd < 0){
     exit(-1);
   }
 
   //Naming socket and listening
-  bind(sockfd, res->ai_addr, res->ai_addrlen);
+  int x = bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
-  
+  printf("%d\n", x);
   //Main loop
   while(1){
     newfd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&addr_size);
