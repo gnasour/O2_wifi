@@ -93,7 +93,7 @@ int init_table(){
   }
   
   if(exec_stmt("CREATE TABLE patient_data(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12) PRIMARY KEY,\
-   age TINYINY, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime)"))
+   age TINYINT, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime)"))
   {
     printf("Error initializing DB tables\n");
     printf("Reason: %s\n", sqlite3_errmsg(db_obj));

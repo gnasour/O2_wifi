@@ -9,9 +9,6 @@
  * 
  */
 
-
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -21,6 +18,7 @@
 #include <string.h>
 #include <netdb.h>
 
+#include "client.h"
 
 //After connection, initiate main server
 int init(int);
@@ -65,10 +63,12 @@ int main(int argc, char* argv[]){
 
     //Create child process to handle the accepted connection
     int proc_id = fork();
-    if(proc_id == 0){
-
+    if(proc_id < 0){
+      perror("Error on main loop fork");
+    }else if(proc_id == 0){
       close(sockfd);
-        
+      while(1) 
+        read_data(newfd);
       }else{
         printf("Parent process, closing socket\n");
         close(newfd);

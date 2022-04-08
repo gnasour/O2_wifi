@@ -5,13 +5,16 @@
 #include <limits.h>
 
 
-int main(){
-    while(1){
+int read_data(int sock_fd){
+    
         char buff[512];
         int amt_read;
-        while(amt_read = read(newfd, buff,(sizeof buff)-1)){
+        while(amt_read = read(sock_fd, buff,(sizeof buff)-1)){
 	    buff[amt_read] = '\0';
-	    printf("%s\n", buff);
-    }
+	    printf("%s", buff);
+            
+        }
+        return amt_read;
+    
 }
 
