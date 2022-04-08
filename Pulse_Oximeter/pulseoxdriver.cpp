@@ -1,7 +1,6 @@
-//#include <Wire.h>
-#include <SoftwareSerial.h>
 #include "MAX30105.h"
 #include "spo2_algorithm.h"
+#include <Wire.h>
 
 MAX30105 particleSensor;
 
@@ -21,6 +20,9 @@ int8_t validSPO2; //indicator to show if the SPO2 calculation is valid
 int32_t heartRate; //heart rate value
 int8_t validHeartRate; //indicator to show if the heart rate calculation is valid
 
+//Buffer for vitals to be transmitted on ESP8266
+//Printed on Serial
+char vitals_buff[100];
 
 void setup()
 {
@@ -40,9 +42,9 @@ void setup()
   Serial.read();
 
   byte ledBrightness = 54; //Options: 0=Off to 255=50mA
-  byte sampleAverage = 4; //Options: 1, 2, 4, 8, 16, 32
+  byte sampleAverage = 2; //Options: 1, 2, 4, 8, 16, 32
   byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
-  byte sampleRate = 100; //Options: 50, 100, 200, 400, 800, 1000, 1600, 3200
+  byte sampleRate = 400; //Options: 50, 100, 200, 400, 800, 1000, 1600, 3200
   int pulseWidth = 411; //Options: 69, 118, 215, 411
   int adcRange = 4096; //Options: 2048, 4096, 8192, 16384
 
@@ -51,8 +53,16 @@ void setup()
 
 void loop()
 {
+  //How many bytes written to hr and spo2 buffers
+  int hr_written;
+  int spo2_written;
+
+  //Buffer pointer
+  char* bp;
+  
   bufferLength = 100; //buffer length of 100 stores 4 seconds of samples running at 25sps
   //read the first 100 samples, and determine the signal range
+  Serial.print(F("Starting initial data collection.\n\n"));
   for (byte i = 0 ; i < bufferLength ; i++)
   {
     while (particleSensor.available() == false) //do we have new data?
@@ -61,16 +71,17 @@ void loop()
     redBuffer[i] = particleSensor.getRed();
     irBuffer[i] = particleSensor.getIR();
     particleSensor.nextSample(); //We're finished with this sample so move to next sample
-
-    Serial.print(F("red="));
-    Serial.print(redBuffer[i], DEC);
-    Serial.print(F(", ir="));
-    Serial.println(irBuffer[i], DEC);
+//
+//    Serial.print(F("red="));
+//    Serial.print(redBuffer[i], DEC);
+//    Serial.print(F(", ir="));
+//    Serial.println(irBuffer[i], DEC);
   }
+  //Serial.print(F("Initial data collection completed. Calculating initial vitals.\n\n"));
 
   //calculate heart rate and SpO2 after first 100 samples (first 4 seconds of samples)
   maxim_heart_rate_and_oxygen_saturation(irBuffer, bufferLength, redBuffer, &spo2, &validSPO2, &heartRate, &validHeartRate);
-
+  //Serial.print(F("Initial vitals calculated. Entering main loop\n\n"));
   //Continuously taking samples from MAX30102.  Heart rate and SpO2 are calculated every 1 second
   while (1)
   {
@@ -94,25 +105,29 @@ void loop()
       particleSensor.nextSample(); //We're finished with this sample so move to next sample
 
       //send samples and calculation result to terminal program through UART
-      Serial.print(F("red="));
-      Serial.print(redBuffer[i], DEC);
-      Serial.print(F(", ir="));
-      Serial.print(irBuffer[i], DEC);
+//      Serial.print(F("red="));
+//      Serial.print(redBuffer[i], DEC);
+//      Serial.print(F(", ir="));
+//      Serial.print(irBuffer[i], DEC);
 
-      Serial.print(F(", HR="));
-      Serial.print(heartRate, DEC);
-
-      Serial.print(F(", HRvalid="));
-      Serial.print(validHeartRate, DEC);
-
-      Serial.print(F(", SPO2="));
-      Serial.print(spo2, DEC);
-
-      Serial.print(F(", SPO2Valid="));
-      Serial.println(validSPO2, DEC);
+      
 
     }
-
+      
+      if(validHeartRate){
+        Serial.print(F("HR: "));
+        Serial.println(heartRate, DEC);  
+      }else{
+        Serial.println(F("ERROR: Invalid Heart Rate Data"));
+      }
+      
+      if(validSPO2){
+        Serial.print(F("SPO2: "));
+        Serial.println(spo2, DEC);
+      }else{
+        Serial.println(F("ERROR: Invalid SPO2 Data"));
+      }
+      
     //After gathering 25 new samples recalculate HR and SP02
     maxim_heart_rate_and_oxygen_saturation(irBuffer, bufferLength, redBuffer, &spo2, &validSPO2, &heartRate, &validHeartRate);
   }
