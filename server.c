@@ -1,3 +1,17 @@
+/**
+ * @file server.c
+ * @author George Nassour
+ * @brief Server application that will open up a socket connection for an incoming device 
+ *        and create a new process to handle reading and writing data from the said device
+ * @version 0.1
+ * @date 2021-10-18
+ * 
+ * 
+ */
+
+
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -6,7 +20,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <netdb.h>
-//test
+
 
 //After connection, initiate main server
 int init(int);
@@ -42,7 +56,7 @@ int main(int argc, char* argv[]){
   }
 
   //Naming socket and listening
-  int x = bind(sockfd, res->ai_addr, res->ai_addrlen);
+  bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
   
   //Main loop
@@ -53,22 +67,11 @@ int main(int argc, char* argv[]){
     int proc_id = fork();
     if(proc_id == 0){
 
-      //init(newfd);
-
       close(sockfd);
-      
-      char buff[512];
-      int amt_read;
-      while(amt_read = read(newfd, buff,(sizeof buff)-1)){
-	buff[amt_read] = '\0';
-	printf("%s\n", buff);
-      }
-
-      //close(newfd);
-      //exit(0);
-    }else{
-      printf("Parent process, closing socket\n");
-      close(newfd);
+        
+      }else{
+        printf("Parent process, closing socket\n");
+        close(newfd);
     }
   }
 }

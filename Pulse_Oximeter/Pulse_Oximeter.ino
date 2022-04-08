@@ -9,7 +9,7 @@
 //    Serial.begin(115200);
 //    WiFi.mode(WIFI_STA);
 //    WiFi.begin("Nasour", "Hn4281992@#"); // change it to your ussid and password
-//    Serial.println("He");
+//    
 //    while (WiFi.status() != WL_CONNECTED)
 //    {
 //      Serial.println("Cant connect");
