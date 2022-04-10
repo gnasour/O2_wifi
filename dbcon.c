@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
-
+#include <fcntl.h>
 #include "dbcon.h"
 
 
@@ -103,6 +103,13 @@ int init_table(){
   return 0;
 }
 
+void begin(){
+  int data_file = open("data.txt", O_RDONLY);
+  
+  close(data_file);
+  unlink("data.txt");
+}
+
 /**
  *
  *
@@ -123,6 +130,7 @@ int main(int argc, char** argv){
 
   open_db();
   init_table();
+  begin();
   if(db_obj){
     sqlite3_close(db_obj);
   }
