@@ -4,20 +4,20 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <fcntl.h>
-#include "dbcon.h"
+
 
 
 
 #define DB_NAME "stats.db"
 
 //SQLite database object to facilitate database connection
-sqlite3* db_obj;
+static sqlite3* db_obj;
 
 /* 
  * Initialize the database object
  * Return: 0 on success, 1 on failure initializing the object
  */
-int open_db(){
+static int open_db(){
   
   //Open DB connection and initialize DB object
   int status_code = sqlite3_open(DB_NAME, &db_obj);
@@ -47,34 +47,33 @@ int exec_stmt(const char* stmt){
   if(stmt == NULL){
     printf("NULL SQL statement given to exec_stmt\n");
     return 1;
+  }else if(db_obj == NULL){
+    printf("NULL DB object");
+    return 2;
   }
   
   sqlite3_stmt* smt;
-  char** buf;
-  char sql_smt[10];
   int step_status;
-  
-  if(db_obj != NULL){
 
-    //Prepare the SQL statement
-    sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
+  //Prepare the SQL statement
+  sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
 
-    //Execute the statement
-    if(smt){
-      step_status = sqlite3_step(smt);
-      if(step_status == SQLITE_ROW){
+  //Execute the statement
+  if(smt){
+    step_status = sqlite3_step(smt);
+    if(step_status == SQLITE_ROW){
 
-	      printf("%d\n", sqlite3_column_count(smt));
-	      for(int i = 0; i < sqlite3_column_count(smt); i++){
-	        printf("%s\n", sqlite3_column_text(smt, i));
-	      }
+      printf("%d\n", sqlite3_column_count(smt));
+      for(int i = 0; i < sqlite3_column_count(smt); i++){
+        printf("%s\n", sqlite3_column_text(smt, i));
       }
-    }else{
-      //Error executing statement
-      printf("Error in executing the following statement:\n\"%s\"\n", stmt);
-      return 1;
     }
+  }else{
+    //Error executing statement
+    printf("Error in executing the following statement:\n\"%s\"\n", stmt);
+    return 1;
   }
+  
   
   return 0;
 
@@ -85,7 +84,7 @@ int exec_stmt(const char* stmt){
  * - For now the only two tables required are O2 and heart rate
  * Return: 0 on successfully initializing the DB tables and 1 on error
  */
-int init_table(){
+static int init_table(){
   
   if(db_obj == NULL){
     printf("Database object is null: Error in init_table");
@@ -103,37 +102,25 @@ int init_table(){
   return 0;
 }
 
-void begin(){
-  int data_file = open("data.txt", O_RDONLY);
-  
-  close(data_file);
-  unlink("data.txt");
-}
-
 /**
- *
- *
+ * @brief Closes the active DB connection if there is one
+ * 
+ * @return int: sqlite_close() return value if non-null DB object and -1 on null DB object
+ * 
  */
-void segv_handler(int sig){
-  printf("Bad memory access\n");
-  //  exit(1);
-}
-
-int main(int argc, char** argv){
- 
-  if(argc > 1){
-    if(strcmp(argv[1], "r") == 0){
-      int x = system("bash rm_db.sh");
-      printf("%d\n", x);
-    }
-  }
-
-  open_db();
-  init_table();
-  begin();
+int close_db(void){
   if(db_obj){
-    sqlite3_close(db_obj);
+    return sqlite3_close(db_obj);
+  }else{
+    return -1;
   }
- 
-  return 0;
 }
+/**
+ * @brief Initializes the DB object and tables for data collection
+ * 
+ */
+void init(void){
+  open_db();
+  init_table();  
+}
+

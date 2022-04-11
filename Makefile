@@ -6,5 +6,4 @@ DEPS = dbcon.h client.h
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 compile: dbcon.c server.c client.c $(DEPS)
-	g++ dbcon.c -o dbcon -lsqlite3
-	g++ server.c client.c -o server -DDEBUG
+	gcc server.c client.c dbcon.c -o server -DDEBUG -lsqlite3

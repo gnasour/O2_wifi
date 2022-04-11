@@ -118,14 +118,14 @@ void loop()
         Serial.print(F("HR: "));
         Serial.println(heartRate, DEC);  
       }else{
-        Serial.println(F("ERROR: Invalid Heart Rate Data"));
+        //Serial.println(F("ERROR: Invalid Heart Rate Data"));
       }
       
       if(validSPO2){
         Serial.print(F("SPO2: "));
         Serial.println(spo2, DEC);
       }else{
-        Serial.println(F("ERROR: Invalid SPO2 Data"));
+        //Serial.println(F("ERROR: Invalid SPO2 Data"));
       }
       
     //After gathering 25 new samples recalculate HR and SP02

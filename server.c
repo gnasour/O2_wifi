@@ -18,10 +18,10 @@
 #include <string.h>
 #include <netdb.h>
 
-#include "client.h"
 
-//After connection, initiate main server
-int init(int);
+#include "client.h"
+#include "dbcon.h"
+
 
 int main(int argc, char* argv[]){
 
@@ -48,7 +48,6 @@ int main(int argc, char* argv[]){
 
   //Creating server socket to listen for connections
   sockfd = socket(PF_INET, SOCK_STREAM, 0);
-  
   if(sockfd < 0){
     exit(-1);
   }
@@ -56,6 +55,9 @@ int main(int argc, char* argv[]){
   //Naming socket and listening
   bind(sockfd, res->ai_addr, res->ai_addrlen);
   listen(sockfd, 20);
+
+  //Initialize database connection for clients to store data
+  init();
   
   //Main loop
   while(1){
@@ -76,12 +78,3 @@ int main(int argc, char* argv[]){
   }
 }
 
-
-int init(int sock){
-  int oxy_val = 0;
-  while(1){
-    read(sock, &oxy_val, sizeof(int));
-    printf("%d\n", oxy_val);
-  }
-  return -1;
-}

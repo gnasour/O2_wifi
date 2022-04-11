@@ -7,7 +7,7 @@
 
 
 int send_to_db(char* info){
-        int data_file = open("data.txt", O_CREAT|O_WRONLY);
+        
 }
 
 int read_data(int sock_fd){
@@ -18,6 +18,7 @@ int read_data(int sock_fd){
 	    buff[amt_read] = '\0';
             #ifdef DEBUG
             printf("%s", buff);
+            printf("test");
             #endif
         }
         return amt_read;
