@@ -92,12 +92,12 @@ static int init_table(){
   }
   
   if(exec_stmt("CREATE TABLE patient_data(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12) PRIMARY KEY,\
-   age TINYINT, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime)"))
+   age TINYINT, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime NOT NULL DEFAULT NOW())"))
   {
     printf("Error initializing DB tables\n");
     printf("Reason: %s\n", sqlite3_errmsg(db_obj));
   }
-  exec_stmt("SELECT * FROM vitals");
+  //exec_stmt("SELECT * FROM vitals");
   
   return 0;
 }
@@ -119,7 +119,7 @@ int close_db(void){
  * @brief Initializes the DB object and tables for data collection
  * 
  */
-void init(void){
+void init_db(void){
   open_db();
   init_table();  
 }
