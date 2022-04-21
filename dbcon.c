@@ -71,6 +71,7 @@ int exec_stmt(const char* stmt){
   }else{
     //Error executing statement
     printf("Error in executing the following statement:\n\"%s\"\n", stmt);
+    printf("Reason: %s\n", sqlite3_errmsg(db_obj));
     return 1;
   }
   
@@ -91,8 +92,8 @@ static int init_table(){
     return 1;
   }
   
-  if(exec_stmt("CREATE TABLE patient_data(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12) PRIMARY KEY,\
-   age TINYINT, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime NOT NULL DEFAULT NOW())"))
+  if(exec_stmt("CREATE TABLE patient_data(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12),\
+   age TINYINT, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime NOT NULL DEFAULT NOW());"))
   {
     printf("Error initializing DB tables\n");
     printf("Reason: %s\n", sqlite3_errmsg(db_obj));

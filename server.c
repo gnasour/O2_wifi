@@ -69,6 +69,7 @@ int main(int argc, char* argv[]){
       perror("Error on main loop fork");
     }else if(proc_id == 0){
       close(sockfd);
+      setbuf(stdout, NULL);
       //Create temp file to write data
       char template[] = "./dataXXXXXX";
       int data_fd = mkstemp(template);
