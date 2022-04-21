@@ -7,6 +7,7 @@
 //void setup()
 //{
 //    Serial.begin(115200);
+//    Serial.println("HI");
 //    WiFi.mode(WIFI_STA);
 //    WiFi.begin("Nasour", "Hn4281992@#"); // change it to your ussid and password
 //    
@@ -39,3 +40,6 @@
 //    client.stop();
 //    delay(5000);
 //}
+////
+////void setup(){}
+////void loop(){}

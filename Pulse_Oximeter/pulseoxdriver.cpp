@@ -22,7 +22,7 @@ int8_t validHeartRate; //indicator to show if the heart rate calculation is vali
 
 //Buffer for vitals to be transmitted on ESP8266
 //Printed on Serial
-char vitals_buff[100];
+char vitals_buff[50];
 
 void setup()
 {
@@ -58,7 +58,7 @@ void loop()
   int spo2_written;
 
   //Buffer pointer
-  char* bp;
+  String stat_buff;
   
   bufferLength = 100; //buffer length of 100 stores 4 seconds of samples running at 25sps
   //read the first 100 samples, and determine the signal range
@@ -113,21 +113,27 @@ void loop()
       
 
     }
-      
+      stat_buff.concat("HR: "); 
       if(validHeartRate){
-        Serial.print(F("HR: "));
-        Serial.println(heartRate, DEC);  
+        //Serial.print(F("HR: "));
+        //Serial.println(heartRate, DEC);  
+        stat_buff.concat( heartRate);
       }else{
+        stat_buff.concat("NaN");
         //Serial.println(F("ERROR: Invalid Heart Rate Data"));
       }
-      
+      stat_buff.concat("SPO2: ");
       if(validSPO2){
-        Serial.print(F("SPO2: "));
-        Serial.println(spo2, DEC);
+        //Serial.print(F("SPO2: "));
+        //Serial.println(spo2, DEC);
+        stat_buff.concat(spo2);
       }else{
+        stat_buff.concat("NaN");
         //Serial.println(F("ERROR: Invalid SPO2 Data"));
       }
-      
+      stat_buff.toCharArray(vitals_buff, stat_buff.length());
+      Serial.println(vitals_buff);
+      stat_buff.remove(0, stat_buff.length());
     //After gathering 25 new samples recalculate HR and SP02
     maxim_heart_rate_and_oxygen_saturation(irBuffer, bufferLength, redBuffer, &spo2, &validSPO2, &heartRate, &validHeartRate);
   }
