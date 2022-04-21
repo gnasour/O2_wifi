@@ -22,7 +22,11 @@ int8_t validHeartRate; //indicator to show if the heart rate calculation is vali
 
 //Buffer for vitals to be transmitted on ESP8266
 //Printed on Serial
-char vitals_buff[50];
+char vitals_buff[18];
+
+
+
+
 
 void setup()
 {
@@ -41,12 +45,40 @@ void setup()
   while (Serial.available() == 0) ; //wait until user presses a key
   Serial.read();
 
-  byte ledBrightness = 54; //Options: 0=Off to 255=50mA
+  byte ledBrightness = 51; //Options: 0=Off to 255=50mA
   byte sampleAverage = 2; //Options: 1, 2, 4, 8, 16, 32
   byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
   byte sampleRate = 400; //Options: 50, 100, 200, 400, 800, 1000, 1600, 3200
   int pulseWidth = 411; //Options: 69, 118, 215, 411
   int adcRange = 4096; //Options: 2048, 4096, 8192, 16384
+
+    
+  vitals_buff[0]='H';
+  vitals_buff[1]='R';
+  vitals_buff[2]=':';
+  vitals_buff[3]=' ';
+  
+  //Heart Rate data
+  vitals_buff[4] = ' ';
+  vitals_buff[5] = ' ';
+  vitals_buff[6] = ' ';
+  
+  vitals_buff[7]=' ';
+  
+  vitals_buff[8]='S';
+  vitals_buff[9]='P';
+  vitals_buff[10]='O';
+  vitals_buff[11]='2';
+  vitals_buff[12]=':';
+  vitals_buff[13]=' ';
+  
+  //SPO2 Data
+  vitals_buff[14] = ' ';
+  vitals_buff[15] = ' ';
+  vitals_buff[16] = ' ';
+  
+  //End of buffer
+  vitals_buff[17] = '\0';
 
   particleSensor.setup(ledBrightness, sampleAverage, ledMode, sampleRate, pulseWidth, adcRange); //Configure sensor with these settings
 }
@@ -54,11 +86,9 @@ void setup()
 void loop()
 {
   //How many bytes written to hr and spo2 buffers
-  int hr_written;
-  int spo2_written;
+  char hr_written[3];
+  char spo2_written[3];
 
-  //Buffer pointer
-  String stat_buff;
   
   bufferLength = 100; //buffer length of 100 stores 4 seconds of samples running at 25sps
   //read the first 100 samples, and determine the signal range
@@ -113,27 +143,49 @@ void loop()
       
 
     }
-      stat_buff.concat("HR: "); 
       if(validHeartRate){
-        //Serial.print(F("HR: "));
-        //Serial.println(heartRate, DEC);  
-        stat_buff.concat( heartRate);
-      }else{
-        stat_buff.concat("NaN");
-        //Serial.println(F("ERROR: Invalid Heart Rate Data"));
+        if(heartRate >= 100){
+          itoa(heartRate, hr_written, 10);
+          //Serial.print("HR ");
+          //Serial.println(hr_written);
+          vitals_buff[4] = hr_written[0];
+          vitals_buff[5] = hr_written[1];
+          vitals_buff[6] = hr_written[2];
+        }else{
+          itoa(heartRate, hr_written, 10);
+          //Serial.print("hr ");
+          //Serial.println( hr_written);
+          vitals_buff[5] = hr_written[0];
+          vitals_buff[6] = hr_written[1];
+        }
       }
-      stat_buff.concat("SPO2: ");
+      
       if(validSPO2){
-        //Serial.print(F("SPO2: "));
-        //Serial.println(spo2, DEC);
-        stat_buff.concat(spo2);
-      }else{
-        stat_buff.concat("NaN");
-        //Serial.println(F("ERROR: Invalid SPO2 Data"));
+        
+        if(spo2 == 100){
+          
+          vitals_buff[14] = '1';
+          vitals_buff[15] = '0';
+          vitals_buff[16] = '0';
+        }else{
+          itoa(spo2, spo2_written, 10);
+          //Serial.print("SPO2 ");
+          //Serial.println(spo2_written);
+          vitals_buff[15] = spo2_written[0];
+          vitals_buff[16] = spo2_written[1];
+        }
       }
-      stat_buff.toCharArray(vitals_buff, stat_buff.length());
       Serial.println(vitals_buff);
-      stat_buff.remove(0, stat_buff.length());
+      vitals_buff[4] = ' ';
+      vitals_buff[5] = ' ';
+      vitals_buff[6] = ' ';
+      
+      vitals_buff[14] = ' ';
+      vitals_buff[15] = ' ';
+      vitals_buff[16] = ' ';
+
+      memset(hr_written, 0, sizeof(hr_written));
+      memset(spo2_written, 0, sizeof(spo2_written));
     //After gathering 25 new samples recalculate HR and SP02
     maxim_heart_rate_and_oxygen_saturation(irBuffer, bufferLength, redBuffer, &spo2, &validSPO2, &heartRate, &validHeartRate);
   }
