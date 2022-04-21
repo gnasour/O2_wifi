@@ -57,7 +57,7 @@ int exec_stmt(const char* stmt){
 
   //Prepare the SQL statement
   sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
-
+  //printf("here\n");
   //Execute the statement
   if(smt){
     step_status = sqlite3_step(smt);
@@ -93,7 +93,7 @@ static int init_table(){
   }
   
   if(exec_stmt("CREATE TABLE patient_data(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12),\
-   age TINYINT, HR TINYINT, SPO2 TINYINT, temperature TINYINT, time_recorded datetime NOT NULL DEFAULT NOW());"))
+   age int, HR int, SPO2 int, temperature int, time_recorded datetime DEFAULT NOW);"))
   {
     printf("Error initializing DB tables\n");
     printf("Reason: %s\n", sqlite3_errmsg(db_obj));

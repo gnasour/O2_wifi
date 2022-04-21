@@ -70,16 +70,8 @@ int main(int argc, char* argv[]){
     }else if(proc_id == 0){
       close(sockfd);
       setbuf(stdout, NULL);
-      //Create temp file to write data
-      char template[] = "./dataXXXXXX";
-      int data_fd = mkstemp(template);
-      if(data_fd == -1){
-	      perror("Error creating temp data file in child");
-	      exit(errno);
-      }
-      //      unlink(template);
       while(1){
-	      recv_data(newfd, data_fd);
+	      recv_data(newfd);
       }
     }else{
       printf("Parent process, closing socket\n");

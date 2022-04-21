@@ -6,6 +6,6 @@
 #define DEBUG
 #endif
 
-int recv_data(int socket_fd, int data_fd);
+int recv_data(int socket_fd);
 
 #endif
