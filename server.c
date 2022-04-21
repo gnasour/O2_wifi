@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <netdb.h>
-
+#include <errno.h>
 
 #include "client.h"
 #include "dbcon.h"
@@ -57,23 +57,32 @@ int main(int argc, char* argv[]){
   listen(sockfd, 20);
 
   //Initialize database connection for clients to store data
-  init();
+  init_db();
   
   //Main loop
   while(1){
     newfd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&addr_size);
-
+    printf("Connection made with new device\n");
     //Create child process to handle the accepted connection
     int proc_id = fork();
     if(proc_id < 0){
       perror("Error on main loop fork");
     }else if(proc_id == 0){
       close(sockfd);
-      while(1) 
-        read_data(newfd);
-      }else{
-        printf("Parent process, closing socket\n");
-        close(newfd);
+      //Create temp file to write data
+      char template[] = "./dataXXXXXX";
+      int data_fd = mkstemp(template);
+      if(data_fd == -1){
+	      perror("Error creating temp data file in child");
+	      exit(errno);
+      }
+      //      unlink(template);
+      while(1){
+	      recv_data(newfd, data_fd);
+      }
+    }else{
+      printf("Parent process, closing socket\n");
+      close(newfd);
     }
   }
 }

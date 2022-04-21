@@ -58,3 +58,4 @@ dkms.conf
 
 #Database files
 stats.db
+data*

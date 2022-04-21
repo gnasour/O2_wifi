@@ -3,9 +3,9 @@
 
 //Debug vital values sent to server
 #ifndef DEBUG
-#define DEBUG 0
+#define DEBUG
 #endif
 
-int read_data(int socket_fd);
+int recv_data(int socket_fd, int data_fd);
 
 #endif
