@@ -9,9 +9,16 @@
 #include "dbcon.h"
 
 int send_to_db(char* info){
-        char prepared_stmt[512];
+        char prepared_stmt[70];
+        char hr[3];
+        char spo2[3];
+        int i;
+        for(i = 0; i < 3; i++){
+                hr[i] = info[i+4];
+                spo2[i] = info[i+14];
+        }
         sprintf(prepared_stmt, "INSERT INTO patient_data \
-        VALUES(John,Doe,45,%d,%d,37");
+        VALUES(John,Doe,45,%d,%d,37", atoi(hr),atoi(spo2));
         exec_stmt(prepared_stmt);
         return 0;
 }
@@ -24,7 +31,7 @@ int recv_data(int socket_fd, int data_fd){
 	    buff[amt_read] = '\0';
 	    if(strncmp(buff, "HR", 2) || strncmp(buff, "SP", 2))
 	      write(data_fd, buff, amt_read);
-              printf("test");
+            printf("test");
 	}
         return amt_read;
     
