@@ -6,6 +6,7 @@
 #endif
 
 void init_db(void);
+void init_table(void);
 int exec_stmt(const char*);
 int close_db(void);
 #endif
