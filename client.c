@@ -8,8 +8,11 @@
 
 #include "dbcon.h"
 
+static char first_name[40];
+static char last_name[40];
+
 int send_to_db(char* info){
-        char prepared_stmt[70];
+        char prepared_stmt[512];
         char hr[3];
         char spo2[3];
         int i;
