@@ -6,6 +6,8 @@
 #define DEBUG
 #endif
 
+void get_pt_info();
+
 int recv_data(int socket_fd);
 
 #endif
