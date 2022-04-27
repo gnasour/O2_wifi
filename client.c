@@ -39,7 +39,6 @@ static int send_to_db(char* info){
                 hr[i] = info[i+4];
                 spo2[i] = info[i+14];
         }
-        //printf("%d\t%d\n",atoi(hr), atoi(spo2));
         printf("%s", info);
         printf("%s\t%s\n", hr, spo2);
         sprintf(prepared_stmt, "INSERT INTO patient_data\
