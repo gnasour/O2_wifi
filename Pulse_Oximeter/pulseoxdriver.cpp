@@ -42,10 +42,18 @@ void setup()
   }
 
   Serial.println(F("Attach sensor to finger with rubber band. Press any key to start conversion"));
-  while (Serial.available() == 0) ; //wait until user presses a key
-  Serial.read();
+  //Wait until ESP says to go
+  int serial_avl;
+  String ser_str;
+  while ((serial_avl = Serial.available()) <1); //wait until user presses a key
+  for(serial_avl; serial_avl != 0; serial_avl--){
+    ser_str += Serial.read();
+  }
+  if(ser_str != "go"){
+    Serial.println(F("Error: Cannot continue, Serial miscom"));
+  }
 
-  byte ledBrightness = 51; //Options: 0=Off to 255=50mA
+  byte ledBrightness = 54; //Options: 0=Off to 255=50mA
   byte sampleAverage = 2; //Options: 1, 2, 4, 8, 16, 32
   byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
   byte sampleRate = 400; //Options: 50, 100, 200, 400, 800, 1000, 1600, 3200
@@ -175,6 +183,7 @@ void loop()
           vitals_buff[16] = spo2_written[1];
         }
       }
+      Serial.println("R");
       Serial.println(vitals_buff);
       vitals_buff[4] = ' ';
       vitals_buff[5] = ' ';

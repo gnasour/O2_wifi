@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <fcntl.h>
-
+#include <unistd.h>
 
 
 
@@ -57,12 +57,11 @@ int exec_stmt(const char* stmt){
 
   //Prepare the SQL statement
   sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
-  //printf("here\n");
+
   //Execute the statement
   if(smt){
     step_status = sqlite3_step(smt);
     if(step_status == SQLITE_ROW){
-
       printf("%d\n", sqlite3_column_count(smt));
       for(int i = 0; i < sqlite3_column_count(smt); i++){
         printf("%s\n", sqlite3_column_text(smt, i));
@@ -80,28 +79,24 @@ int exec_stmt(const char* stmt){
 
 }
 
+
 /**
  * Initialize the tables of the database
- * - For now the only two tables required are O2 and heart rate
- * Return: 0 on successfully initializing the DB tables and 1 on error
+ * Tables:
+ *  *Patient data - HR, SpO2, Temperature, ID, date of collection
+ *  *Patient record - First name, Last name, ID
  */
-static int init_table(){
-  
-  if(db_obj == NULL){
-    printf("Database object is null: Error in init_table");
-    return 1;
-  }
-  
-  if(exec_stmt("CREATE TABLE patient_info(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12),\
-   age int, HR int, SPO2 int, temperature int, time_recorded datetime DEFAULT NOW);"))
-  {
-    printf("Error in initializing patient_info tables\n");
-    printf("Reason: %s\n", sqlite3_errmsg(db_obj));
+ void init_table(){
+  char table_stmt[512];
+  int stmt_fd = open("init_stmt", O_RDONLY);
+  int amt_read;
+  while((amt_read = read(stmt_fd, table_stmt, sizeof(table_stmt)))){
+    if(table_stmt[amt_read-1] == '\n'){
+      table_stmt[amt_read-1] = '\0';
+    }
+    exec_stmt(table_stmt);
   }
 
-  if
-    
-  return 0;
 }
 
 /**

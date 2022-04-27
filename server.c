@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
   //Server Socket FD, New Request FD
   int sockfd, newfd;
   //Finding the address of the ESP8266
-  struct addrinfo hints, *res, *p;
+  struct addrinfo hints, *res;
   //IPv4 Address of the ESP8266
   char buff[INET_ADDRSTRLEN];
   struct sockaddr_storage their_addr;

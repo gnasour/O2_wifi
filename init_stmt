@@ -1,0 +1,2 @@
+CREATE TABLE if NOT EXIST patient_data(pt_ID VARCHAR(12),age int, HR int, SPO2 int, temperature int, time_recorded datetime DEFAULT NOW);
+CREATE TABLE if NOT EXIST patient_rcrd(pt_first_name VARCHAR(40), pt_last_name VARCHAR(40), pt_ID VARCHAR(12);
