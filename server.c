@@ -68,8 +68,7 @@ int main(int argc, char* argv[]){
     if(proc_id < 0){
       perror("Error on main loop fork");
     }else if(proc_id == 0){
-      close(sockfd);
-      setbuf(stdout, NULL);
+      write(newfd, "g", 1);
       while(1){
 	      recv_data(newfd);
       }
