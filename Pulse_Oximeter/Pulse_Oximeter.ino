@@ -28,7 +28,7 @@
 //       delay(1000);
 //    }
 //
-// Stop until server gives the go-ahead when user enters name
+////Stop until server gives the go-ahead when user enters name
 //    if(client.available()){
 //        c = client.read();
 //    }
