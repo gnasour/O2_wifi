@@ -40,8 +40,7 @@ void setup()
     Serial.println(F("MAX30105 was not found. Please check wiring/power."));
     while (1);
   }
-
-  Serial.println(F("Attach sensor to finger with rubber band. Press any key to start conversion"));
+  Serial.println("Waiting for server intialization");
   //Wait until ESP says to go
   int serial_avl;
   char c;
