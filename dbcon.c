@@ -38,11 +38,10 @@ static int open_db(){
 
 
 /* 
- * Executes any SQL statement sent as an argument
+ * Executes any SQL statement sent as an argument and print the results
  * Return: 0 on success, 1 if error executing statement
  */
 int exec_stmt(const char* stmt){
-
 
   if(stmt == NULL){
     printf("NULL SQL statement given to exec_stmt\n");
@@ -56,13 +55,10 @@ int exec_stmt(const char* stmt){
   int step_status;
 
   //Prepare the SQL statement
-  sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
-
+  int prepare_err_code = sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
   //Execute the statement
   if(smt){
-    step_status = sqlite3_step(smt);
-    if(step_status == SQLITE_ROW){
-      printf("%d\n", sqlite3_column_count(smt));
+    while((step_status = sqlite3_step(smt)) == SQLITE_ROW){
       for(int i = 0; i < sqlite3_column_count(smt); i++){
         printf("%s\n", sqlite3_column_text(smt, i));
       }
@@ -70,10 +66,10 @@ int exec_stmt(const char* stmt){
   }else{
     //Error executing statement
     printf("Error in executing the following statement:\n\"%s\"\n", stmt);
-    printf("Reason: %s\n", sqlite3_errmsg(db_obj));
+    printf("Reason: %s\n Error Code: %s", sqlite3_errmsg(db_obj), sqlite3_errstr(sqlite3_errcode(db_obj)));
     return 1;
   }
-  
+  sqlite3_finalize(smt);
   
   return 0;
 
@@ -97,6 +93,7 @@ int exec_stmt(const char* stmt){
   while((sql_stmt = strtok(NULL, "\n"))){
     exec_stmt(sql_stmt);
   }
+  printf("Tables initialized successfully!\n");
 }
 
 /**
