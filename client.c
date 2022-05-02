@@ -29,7 +29,6 @@ static void register_pt(){
         char prepared_stmt[512];
         sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_first_name='%s' AND pt_last_name='%s'", first_name, last_name);
         exec_stmt(prepared_stmt);
-
 }
 
 static int send_to_db(char* info){
@@ -66,20 +65,10 @@ int recv_data(int socket_fd){
     int c = 0;
         char buff[512];
         int amt_read;
-        while(amt_read = read(socket_fd, buff,(sizeof buff)-1)){
-	    buff[amt_read] = '\0';
-            //printthis(buff);
-	    if(strncmp(buff, "H", 1)){
-                
-                    if(amt_read == 1){
-                            //printf("%c\n", buff[0]);
-                    }else{
-                            write(1, buff, amt_read);
-                    }
-            }
-                
+        while((amt_read = read(socket_fd, buff,(sizeof buff)-1))){
+                buff[amt_read]='\0';
+                printf("%s\n", buff);
 	}
-        return amt_read;
-    
+    return amt_read;
 }
 
