@@ -46,7 +46,7 @@
 //    {
 //          if(Serial.available()){
 //   
-//            client.print(Serial.read());
+//            client.write(Serial.read());
 //         } 
 //    } 
 //    client.stop();

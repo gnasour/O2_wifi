@@ -37,11 +37,11 @@ void setup()
   // Initialize sensor
   if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
   {
-    Serial.println(F("MAX30105 was not found. Please check wiring/power."));
+    //Serial.println(F("MAX30105 was not found. Please check wiring/power."));
     while (1);
   }
   //Wait until user is ready for input
-  Serial.println("Press button to start data collection");
+  //Serial.println("Press button to start data collection");
   while(digitalRead(7) == LOW);
 
   
@@ -92,7 +92,7 @@ void loop()
   
   bufferLength = 100; //buffer length of 100 stores 4 seconds of samples running at 25sps
   //read the first 100 samples, and determine the signal range
-  Serial.print(F("Starting initial data collection.\n\n"));
+  //Serial.print(F("Starting initial data collection.\n\n"));
   for (byte i = 0 ; i < bufferLength ; i++)
   {
     while (particleSensor.available() == false) //do we have new data?
@@ -175,7 +175,8 @@ void loop()
           vitals_buff[16] = spo2_written[1];
         }
       }
-      Serial.println(vitals_buff);
+      Serial.write("R");
+      Serial.write(vitals_buff, sizeof(vitals_buff));
       vitals_buff[4] = ' ';
       vitals_buff[5] = ' ';
       vitals_buff[6] = ' ';
