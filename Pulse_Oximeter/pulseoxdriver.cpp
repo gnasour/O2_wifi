@@ -175,7 +175,6 @@ void loop()
           vitals_buff[16] = spo2_written[1];
         }
       }
-      Serial.println("R");
       Serial.println(vitals_buff);
       vitals_buff[4] = ' ';
       vitals_buff[5] = ' ';

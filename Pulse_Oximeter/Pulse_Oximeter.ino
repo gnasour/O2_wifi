@@ -17,7 +17,7 @@
 //    
 //    while(WiFi.status() != WL_CONNECTED)
 //    {
-//      Serial.println(WiFi.status());
+//      delay(1000);
 //      digitalWrite(BLUE_LED, LOW);
 //      delay(2500);
 //      digitalWrite(BLUE_LED, HIGH);
@@ -29,10 +29,10 @@
 //
 // void loop()
 // {
-//    char c;
+//    
 //    while (!client.connect(host, port))
 //    {
-//      
+////      delay(1000);
 //       digitalWrite(BLUE_LED, LOW);
 //       delay(250);
 //       digitalWrite(BLUE_LED, HIGH);
@@ -45,12 +45,13 @@
 //     while (client.connected())
 //    {
 //          if(Serial.available()){
-//            client.write(Serial.read()); 
+//   
+//            client.print(Serial.read());
 //         } 
 //    } 
 //    client.stop();
 //    
 // }
-//
-////void setup(){}
-////void loop(){}
+
+//void setup(){}
+//void loop(){}
