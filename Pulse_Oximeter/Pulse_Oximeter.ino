@@ -10,7 +10,7 @@
 //    Serial.println("HI");
 //    WiFi.mode(WIFI_STA);
 //    WiFi.begin("Nasour", "Hn4281992@#"); // change it to your ussid and password
-   
+//   
 //    while (WiFi.status() != WL_CONNECTED)
 //    {
 //      Serial.println("Cant connect");
@@ -18,7 +18,7 @@
 //    }
 //    Serial.println(WiFi.localIP());
 // }
-
+//
 // void loop()
 // {
 //    char c;
@@ -27,11 +27,11 @@
 //       Serial.println("Could not connect to the client");
 //       delay(1000);
 //    }
-//
-// Stop until server gives the go-ahead when user enters name
-//    if(client.available()){
-//        c = client.read();
-//    }
+////
+//// Stop until server gives the go-ahead when user enters name
+////    if(client.available()){
+////        c = client.read();
+////    }
 //
 //     while (client.connected())
 //    {
@@ -41,10 +41,10 @@
 // //        c = client.read();
 // //        client.println(c);  
 //      }
-   
+// 
 //    client.stop();
-//    delay(5000);
+//    //delay(5000);
 // }
-// //
-// //void setup(){}
-// //void loop(){}
+ 
+// void setup(){}
+// void loop(){}

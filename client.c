@@ -47,15 +47,15 @@ int recv_data(int socket_fd){
         int amt_read;
         while(amt_read = read(socket_fd, buff,(sizeof buff)-1)){
 	    buff[amt_read] = '\0';
-            //printthis(buff);
-	    if(strncmp(buff, "H", 1)){
+            printthis(buff);
+	//     if(strncmp(buff, "H", 1)){
                 
-                    if(amt_read == 1){
-                            //printf("%c\n", buff[0]);
-                    }else{
-                            write(1, buff, amt_read);
-                    }
-            }
+        //             if(amt_read == 1){
+        //                     //printf("%c\n", buff[0]);
+        //             }else{
+        //                     write(1, buff, amt_read);
+        //             }
+        //     }
                 
 	}
         return amt_read;
