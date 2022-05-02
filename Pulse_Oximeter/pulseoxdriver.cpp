@@ -33,26 +33,18 @@ void setup()
   
 
   Serial.begin(115200); // initialize serial communication at 115200 bits per second:
-  
+  pinMode(7,INPUT);
   // Initialize sensor
   if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
   {
     Serial.println(F("MAX30105 was not found. Please check wiring/power."));
     while (1);
   }
+  //Wait until user is ready for input
+  Serial.println("Press button to start data collection");
+  while(digitalRead(7) == LOW);
 
-  Serial.println(F("Attach sensor to finger with rubber band. Press any key to start conversion"));
-  //Wait until ESP says to go
-  int serial_avl;
-  String ser_str;
-  while ((serial_avl = Serial.available()) <1); //wait until user presses a key
-  for(serial_avl; serial_avl != 0; serial_avl--){
-    ser_str += Serial.read();
-  }
-  if(ser_str != "go"){
-    Serial.println(F("Error: Cannot continue, Serial miscom"));
-  }
-
+  
   byte ledBrightness = 54; //Options: 0=Off to 255=50mA
   byte sampleAverage = 2; //Options: 1, 2, 4, 8, 16, 32
   byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
@@ -183,7 +175,6 @@ void loop()
           vitals_buff[16] = spo2_written[1];
         }
       }
-      Serial.println("R");
       Serial.println(vitals_buff);
       vitals_buff[4] = ' ';
       vitals_buff[5] = ' ';
