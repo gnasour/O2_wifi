@@ -67,6 +67,7 @@ int exec_stmt(const char* stmt){
     //Error executing statement
     printf("Error in executing the following statement:\n\"%s\"\n", stmt);
     printf("Reason: %s\n Error Code: %s", sqlite3_errmsg(db_obj), sqlite3_errstr(sqlite3_errcode(db_obj)));
+    //raise(SIGQUIT);
     return 1;
   }
   sqlite3_finalize(smt);
@@ -92,6 +93,7 @@ int exec_stmt(const char* stmt){
   exec_stmt(sql_stmt);
   while((sql_stmt = strtok(NULL, "\n"))){
     exec_stmt(sql_stmt);
+
   }
   printf("Tables initialized successfully!\n");
 }

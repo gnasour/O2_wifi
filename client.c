@@ -27,7 +27,7 @@ void get_pt_info(){
 
 static void register_pt(){
         char prepared_stmt[512];
-        sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_first_name='%s' AND pt_last_name='%s'", first_name, last_name);
+        sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_first_name='%s' AND pt_last_name='%s';", first_name, last_name);
         exec_stmt(prepared_stmt);
 }
 
@@ -67,7 +67,10 @@ int recv_data(int socket_fd){
         int amt_read;
         while((amt_read = read(socket_fd, buff,(sizeof buff)-1))){
                 buff[amt_read]='\0';
-                printf("%s\n", buff);
+                if(buff[0] == 'H'){
+                        printf("%s\n", buff);
+                }
+                
 	}
     return amt_read;
 }
