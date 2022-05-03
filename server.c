@@ -58,6 +58,7 @@ int main(int argc, char* argv[]){
 
   //Initialize database connection for clients to store data
   init_db();
+  get_pt_info();
   
   //Main loop
   while(1){

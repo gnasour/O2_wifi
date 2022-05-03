@@ -15,6 +15,8 @@ static char last_name[41];
 static char patient_id[12];
 static int pt_age;
 
+extern db_result db_res;
+
 void get_pt_info(){
         printf("Please enter the first name of the patient: ");
         scanf("%40s", first_name);
@@ -29,6 +31,9 @@ static void register_pt(){
         char prepared_stmt[512];
         sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_first_name='%s' AND pt_last_name='%s';", first_name, last_name);
         exec_stmt(prepared_stmt);
+        for(int i = 0;i<db_res.count; i++){
+                printf("%s\n", db_res.res[i]);
+        }
 }
 
 static int send_to_db(char* info){
@@ -49,18 +54,6 @@ static int send_to_db(char* info){
         return 0;
 }
 
-void printthis(char* bu){
-        while(*bu!='\0'){
-                if(*bu =='\n'){
-                        putchar('*');}
-                else{
-                        putchar(*bu);}
-                
-                bu++;
-        }
-        putchar('\n');
-}
-
 int recv_data(int socket_fd){
     int c = 0;
         char buff[512];
@@ -70,7 +63,6 @@ int recv_data(int socket_fd){
                 if(buff[0] == 'H'){
                         printf("%s\n", buff);
                 }
-                
 	}
     return amt_read;
 }

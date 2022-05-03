@@ -6,12 +6,16 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "dbcon.h"
+
 
 
 #define DB_NAME "stats.db"
 
 //SQLite database object to facilitate database connection
 static sqlite3* db_obj;
+
+db_result db_res;
 
 /* 
  * Initialize the database object
@@ -53,14 +57,20 @@ int exec_stmt(const char* stmt){
   
   sqlite3_stmt* smt;
   int step_status;
+  
 
   //Prepare the SQL statement
   int prepare_err_code = sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
   //Execute the statement
   if(smt){
     while((step_status = sqlite3_step(smt)) == SQLITE_ROW){
-      for(int i = 0; i < sqlite3_column_count(smt); i++){
-        printf("%s\n", sqlite3_column_text(smt, i));
+      int col_cnt = sqlite3_column_count(smt);
+      db_res.count = col_cnt;
+      db_res.res = calloc(col_cnt+1, sizeof(char**));
+      for(int i = 0; i < col_cnt; i++){
+        char* col_res = sqlite3_column_text(smt, i);
+        db_res.res[i] = col_res;
+        //printf("%s\n", col_res);
       }
     }
   }else{
