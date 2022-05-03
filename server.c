@@ -15,9 +15,11 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <sys/wait.h>
 #include <string.h>
 #include <netdb.h>
 #include <errno.h>
+#include <signal.h>
 
 #include "client.h"
 #include "dbcon.h"
@@ -29,10 +31,9 @@ int main(int argc, char* argv[]){
   int sockfd, newfd;
   //Finding the address of the ESP8266
   struct addrinfo hints, *res;
-  //IPv4 Address of the ESP8266
-  char buff[INET_ADDRSTRLEN];
   struct sockaddr_storage their_addr;
   int addr_size = sizeof their_addr;
+
 
   //Packing addrinfo struct to retrieve necessary address information
   memset(&hints, 0, sizeof hints);
@@ -58,18 +59,16 @@ int main(int argc, char* argv[]){
 
   //Initialize database connection for clients to store data
   init_db();
-  get_pt_info();
   
   //Main loop
   while(1){
     newfd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&addr_size);
     printf("Connection made with new device\n");
     //Create child process to handle the accepted connection
-    int proc_id = fork();
+    pid_t proc_id = fork();
     if(proc_id < 0){
       perror("Error on main loop fork");
     }else if(proc_id == 0){
-      close(sockfd);
       get_pt_info();
       while(1){
 	      recv_data(newfd);
@@ -77,6 +76,9 @@ int main(int argc, char* argv[]){
     }else{
       printf("Parent process, closing socket\n");
       close(newfd);
+      int wstatus;
+      waitpid(proc_id, &wstatus, 0);
+      fprintf(stderr, "Process: %zd exited with status: %d\n", proc_id, wstatus);
     }
   }
 }

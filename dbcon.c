@@ -59,7 +59,7 @@ int exec_stmt(const char* stmt, db_result* db_res){
   
 
   //Prepare the SQL statement
-  int prepare_err_code = sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
+  sqlite3_prepare(db_obj, stmt, strlen(stmt), &smt, NULL);
   //Execute the statement
   if(smt){
     while((step_status = sqlite3_step(smt)) == SQLITE_ROW){
@@ -70,13 +70,12 @@ int exec_stmt(const char* stmt, db_result* db_res){
         db_res->col_name = calloc(col_cnt, sizeof(char**));
       }
       for(int i = 0; i < col_cnt; i++){
-        const char* col_res = sqlite3_column_text(smt, i);
+        const unsigned char* col_res = sqlite3_column_text(smt, i);
         if(db_res!=NULL){
           db_res->res[i] = col_res; 
           db_res->col_name[i] = sqlite3_column_name(smt,i);
         }
         printf("%s\n", col_res);
-        sqlite3_free(col_res);
       }
     }
   }else{
@@ -101,10 +100,9 @@ int exec_stmt(const char* stmt, db_result* db_res){
  */
  void init_table(){
   char table_stmts[512];
-  char* sql_stmt;
+  const char* sql_stmt;
   int stmt_fd = open("init_stmt", O_RDONLY);
-  int amt_read;
-  amt_read = read(stmt_fd, table_stmts, sizeof(table_stmts));  
+  read(stmt_fd, table_stmts, sizeof(table_stmts));  
   sql_stmt = strtok(table_stmts, "\n");
   exec_stmt(sql_stmt, NULL);
   while((sql_stmt = strtok(NULL, "\n"))){

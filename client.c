@@ -10,10 +10,10 @@
 
 static void register_pt();
 
-static const char first_name[41];
-static const char last_name[41];
-static const char* patient_id;
-static const int pt_age;
+static char first_name[41];
+static char last_name[41];
+static char* patient_id;
+static int pt_age;
 
 
 void get_pt_info(){
@@ -33,26 +33,28 @@ static void register_pt(){
         exec_stmt(prepared_stmt, db_res);
         for(int i = 0;i<db_res->count; i++){
                 if(strcmp(db_res->col_name[i], "pt_ID")==0){
-                        patient_id = db_res->res[i];
+                        patient_id = malloc(sizeof(char*)*(strlen((const char*)db_res->res[i])+1));
+                        patient_id = strcpy(patient_id,(const char*)db_res->res[i]);
+                        printf("%s\n", patient_id);
                 }
         }
         free(db_res->res);
         free(db_res->col_name);
         free(db_res);
+        
 }
 
-static int send_to_db(char* info){
+static int send_to_db(const char* info){
         char prepared_stmt[512];
-        char hr[3];
-        char spo2[3];
+        char hr[4] = {0};
+        char spo2[4]= {0};
         int i;
         
         for(i = 0; i < 3; i++){
                 hr[i] = info[i+4];
                 spo2[i] = info[i+14];
         }
-        printf("%s", info);
-        printf("%s\t%s\n", hr, spo2);
+        printf("%s\n", info);
         sprintf(prepared_stmt, "INSERT INTO patient_data\
         VALUES('%s',%d,%d,37,DateTime('NOW'))", patient_id,atoi(hr),atoi(spo2));
         exec_stmt(prepared_stmt,NULL);
@@ -60,13 +62,12 @@ static int send_to_db(char* info){
 }
 
 int recv_data(int socket_fd){
-    int c = 0;
         char buff[512];
         int amt_read;
         while((amt_read = read(socket_fd, buff,(sizeof buff)-1))){
                 buff[amt_read]='\0';
                 if(buff[0] == 'H'){
-                        printf("%s\n", buff);
+                        send_to_db(buff);
                 }
 	}
     return amt_read;

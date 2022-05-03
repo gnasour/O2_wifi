@@ -8,7 +8,7 @@
 
 struct db_result{
     int count; //Count of columns in table returned from query
-    const char** res; //Results of the query
+    const unsigned char** res; //Results of the query
     const char** col_name; //Column names of the query
 };
 
