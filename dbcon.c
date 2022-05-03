@@ -15,8 +15,6 @@
 //SQLite database object to facilitate database connection
 static sqlite3* db_obj;
 
-db_result db_res;
-
 /* 
  * Initialize the database object
  * Return: 0 on success, 1 on failure initializing the object
@@ -43,16 +41,17 @@ static int open_db(){
 
 /* 
  * Executes any SQL statement sent as an argument and print the results
- * Return: 0 on success, 1 if error executing statement
+ * If 
+ * Return: 0 on success, -1 if error executing statement
  */
-int exec_stmt(const char* stmt){
+int exec_stmt(const char* stmt, db_result* db_res){
 
   if(stmt == NULL){
     printf("NULL SQL statement given to exec_stmt\n");
-    return 1;
+    return -1;
   }else if(db_obj == NULL){
     printf("NULL DB object");
-    return 2;
+    return -1;
   }
   
   sqlite3_stmt* smt;
@@ -65,21 +64,28 @@ int exec_stmt(const char* stmt){
   if(smt){
     while((step_status = sqlite3_step(smt)) == SQLITE_ROW){
       int col_cnt = sqlite3_column_count(smt);
-      db_res.count = col_cnt;
-      db_res.res = calloc(col_cnt+1, sizeof(char**));
+      if(db_res != NULL){
+        db_res->count = col_cnt;
+        db_res->res = calloc(col_cnt, sizeof(char**));
+        db_res->col_name = calloc(col_cnt, sizeof(char**));
+      }
       for(int i = 0; i < col_cnt; i++){
-        char* col_res = sqlite3_column_text(smt, i);
-        db_res.res[i] = col_res;
-        //printf("%s\n", col_res);
+        const char* col_res = sqlite3_column_text(smt, i);
+        if(db_res!=NULL){
+          db_res->res[i] = col_res; 
+          db_res->col_name[i] = sqlite3_column_name(smt,i);
+        }
+        printf("%s\n", col_res);
+        sqlite3_free(col_res);
       }
     }
   }else{
     //Error executing statement
     printf("Error in executing the following statement:\n\"%s\"\n", stmt);
     printf("Reason: %s\n Error Code: %s", sqlite3_errmsg(db_obj), sqlite3_errstr(sqlite3_errcode(db_obj)));
-    //raise(SIGQUIT);
-    return 1;
+    return -1;
   }
+  
   sqlite3_finalize(smt);
   
   return 0;
@@ -100,9 +106,9 @@ int exec_stmt(const char* stmt){
   int amt_read;
   amt_read = read(stmt_fd, table_stmts, sizeof(table_stmts));  
   sql_stmt = strtok(table_stmts, "\n");
-  exec_stmt(sql_stmt);
+  exec_stmt(sql_stmt, NULL);
   while((sql_stmt = strtok(NULL, "\n"))){
-    exec_stmt(sql_stmt);
+    exec_stmt(sql_stmt, NULL);
 
   }
   printf("Tables initialized successfully!\n");

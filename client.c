@@ -10,12 +10,11 @@
 
 static void register_pt();
 
-static char first_name[41];
-static char last_name[41];
-static char patient_id[12];
-static int pt_age;
+static const char first_name[41];
+static const char last_name[41];
+static const char* patient_id;
+static const int pt_age;
 
-extern db_result db_res;
 
 void get_pt_info(){
         printf("Please enter the first name of the patient: ");
@@ -29,11 +28,17 @@ void get_pt_info(){
 
 static void register_pt(){
         char prepared_stmt[512];
+        db_result* db_res = malloc(sizeof(db_result));
         sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_first_name='%s' AND pt_last_name='%s';", first_name, last_name);
-        exec_stmt(prepared_stmt);
-        for(int i = 0;i<db_res.count; i++){
-                printf("%s\n", db_res.res[i]);
+        exec_stmt(prepared_stmt, db_res);
+        for(int i = 0;i<db_res->count; i++){
+                if(strcmp(db_res->col_name[i], "pt_ID")==0){
+                        patient_id = db_res->res[i];
+                }
         }
+        free(db_res->res);
+        free(db_res->col_name);
+        free(db_res);
 }
 
 static int send_to_db(char* info){
@@ -50,7 +55,7 @@ static int send_to_db(char* info){
         printf("%s\t%s\n", hr, spo2);
         sprintf(prepared_stmt, "INSERT INTO patient_data\
         VALUES('%s',%d,%d,37,DateTime('NOW'))", patient_id,atoi(hr),atoi(spo2));
-        exec_stmt(prepared_stmt);
+        exec_stmt(prepared_stmt,NULL);
         return 0;
 }
 
