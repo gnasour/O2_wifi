@@ -8,7 +8,7 @@
  * 
  * 
  */
-
+#include <syslog.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -59,6 +59,8 @@ int main(int argc, char* argv[]){
 
   //Initialize database connection for clients to store data
   init_db();
+
+  openlog(argv[0], LOG_CONS|LOG_PID, LOG_USER);
   
   //Main loop
   while(1){
@@ -74,11 +76,12 @@ int main(int argc, char* argv[]){
 	      recv_data(newfd);
       }
     }else{
+      
       printf("Parent process, closing socket\n");
       close(newfd);
       int wstatus;
       waitpid(proc_id, &wstatus, 0);
-      fprintf(stderr, "Process: %zd exited with status: %d\n", proc_id, wstatus);
+      syslog(LOG_USER|LOG_DEBUG, "Process: %zd exited with status: %d\n", proc_id, wstatus);
     }
   }
 }
