@@ -5,6 +5,8 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <string.h>
+#include <sys/un.h>
+#include <sys/socket.h>
 
 #include "dbcon.h"
 
@@ -62,13 +64,27 @@ static int send_to_db(const char* info){
 }
 
 int recv_data(int socket_fd){
-        char buff[512];
+        
+        //Unix Domain Socket connection
+        struct sockaddr_un addr;
+        int sun_fd = socket(PF_UNIX, SOCK_STREAM, 0);
+        memset(&addr, 0, sizeof(addr));
+        addr.sun_family = AF_UNIX;
+        strcpy(addr.sun_path, "./Sp_data");
+        connect(sun_fd, (struct sockaddr *) &addr, sizeof(addr));
+
+        //Read from arduino
+        char buff[512] = {0};
         int amt_read;
+
         while((amt_read = read(socket_fd, buff,(sizeof buff)-1))){
-                buff[amt_read]='\0';
-                if(buff[0] == 'H'){
-                        send_to_db(buff);
-                }
+                // buff[amt_read]='\0';
+                // if(buff[0] == 'H'){
+                //         send_to_db(buff);
+                // }
+
+                //Send to python for processing
+                write(sun_fd, buff, amt_read);
 	}
     return amt_read;
 }
