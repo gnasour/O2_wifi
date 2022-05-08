@@ -58,4 +58,4 @@ dkms.conf
 
 #Database files
 *.db
-data*
+data.txt
