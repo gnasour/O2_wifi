@@ -6,8 +6,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 
+#Plot package
+plt.style.use('ggplot')
+
 server_address = './Sp_data'
-f = open("data.txt", "r")
+f = open("data.txt", "w")
+datafile = open("data.txt", "r")
+
+data_f = []
+
 
 plt.style.use('ggplot')
 
@@ -23,34 +30,30 @@ plt.style.use('ggplot')
 # print(sys.stderr, 'starting up on %s' % server_address)
 # sock.bind(server_address)
 
-# sock.listen(1)
 
-# while True:
-#     print(sys.stderr, 'waiting for a connection')
-#     connection, client_address = sock.accept()
+print(sys.stderr, 'waiting for a connection')
+connection, client_address = sock.accept()
+try:
+    print(sys.stderr, 'Connection from', client_address)
+    while  True:
+        try: 
+            data = connection.recv(64)
+            if data:
+                data_f.append(data.decode("utf-8"))
+        except KeyboardInterrupt:
+            connection.close()
+            f.close()
+            print("foo")
+            break
+except KeyboardInterrupt:
+    connection.close()
+    f.close()
+    print("bar")
+
+print(data_f)
+# t_vec, ir_vec, red_vec=[],[],[]
+# ir_prev,red_prev=0.0,0.0
+# for ii in range(3,len(data_f)):
 #     try:
-#         print(sys.stderr, 'Connection from', client_address)
-#         while  True:
-#             try: 
-#                 data = connection.recv(512)
-#                 if data:
-#                     f.write(data.decode("utf-8"))
-#             except:
-#                 connection.close()
-#                 f.close()
-#                 break
-#     except KeyboardInterrupt:
-#         connection.close()
-#         f.close()
-#         break
-#     break
-
-all_data = []
-for x in f:
-    all_data.append(x)
-
-t_vec,ir_vec,red_vec = [],[],[]
-ir_prev,red_prev = 0.0,0.0
-for ii in range(3, len(all_data)):
-    try:
-        curr_data = all_data[ii]
+        
+    

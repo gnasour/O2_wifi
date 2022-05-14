@@ -18,6 +18,12 @@ static char* patient_id;
 static int pt_age;
 
 
+volatile sig_atomic_t flag = 1;
+
+void SIG_INT_HANDLER(int signum){
+        flag = 0;
+}
+
 void get_pt_info(){
         printf("Please enter the first name of the patient: ");
         scanf("%40s", first_name);
@@ -77,15 +83,15 @@ int recv_data(int socket_fd){
         char buff[512] = {0};
         int amt_read;
 
-        while((amt_read = read(socket_fd, buff,(sizeof buff)-1))){
+        while(flag){
                 // buff[amt_read]='\0';
                 // if(buff[0] == 'H'){
                 //         send_to_db(buff);
                 // }
 
                 //Send to python for processing
-                write(sun_fd, buff, amt_read);
+	  amt_read = read(socket_fd, buff,(sizeof buff)-1);
+	  write(sun_fd, buff, amt_read);
 	}
     return amt_read;
 }
-
