@@ -72,9 +72,8 @@ int main(int argc, char* argv[]){
       perror("Error on main loop fork");
     }else if(proc_id == 0){
       get_pt_info();
-      while(1){
-	      recv_data(newfd);
-      }
+	    recv_data(newfd);
+      
     }else{
       
       printf("Parent process, closing socket\n");

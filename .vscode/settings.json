@@ -3,6 +3,7 @@
         "signal.h": "c",
         "limits.h": "c",
         "stdio.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "dbcon.h": "c"
     }
 }
