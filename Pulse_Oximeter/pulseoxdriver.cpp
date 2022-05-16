@@ -253,8 +253,7 @@ void loop() {
     ir = particleSensor.getFIFOIR();
     red = particleSensor.getFIFORed();
     amt_to_send = sprintf(data_buf, "%ld:%ld,%ld\n", micro_sec, ir, red);
-    Serial.print(data_buf);
-    Serial.flush();
+    Serial.write(data_buf, amt_to_send);
     // read next set of samples
     particleSensor.nextSample();      
   }
