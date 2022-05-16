@@ -5,14 +5,14 @@
 // #define BLUE_LED 2
 // 
 // const uint16_t port = 1025;
-// const char *host = "192.168.1.199";
+// const char *host = "192.168.0.16";
 // WiFiClient client;
 //   
 // void setup()
 // {
 //    Serial.begin(115200);
 //    WiFi.mode(WIFI_STA);
-//    WiFi.begin("Nasour", "Hn4281992@#"); // change it to your ussid and password
+//    WiFi.begin("Priscilla-2G", "9566939939"); // change it to your ussid and password
 //    pinMode(BLUE_LED, OUTPUT);
 //    
 //    while(WiFi.status() != WL_CONNECTED)
@@ -52,6 +52,6 @@
 //    client.stop();
 //    
 // }
-
-//void setup(){}
-//void loop(){}
+//
+////void setup(){}
+////void loop(){}
