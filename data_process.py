@@ -13,8 +13,6 @@ plt.style.use('ggplot')
 #File constants
 server_address = './Sp_data'
 data_csv = "data.csv"
-file_write = open("data.txt", "w")
-file_read = open("data.txt", "r")
 
 #Gradient Approx. Constants
 heart_rate_span = [10,250]

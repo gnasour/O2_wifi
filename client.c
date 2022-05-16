@@ -18,10 +18,10 @@ static char* patient_id;
 static int pt_age;
 
 
-volatile sig_atomic_t flag = 1;
+volatile sig_atomic_t sigint_flag = 0;
 
 void SIG_INT_HANDLER(int signum){
-        flag = 0;
+        sigint_flag = 1;
 }
 
 void get_pt_info(){
@@ -82,22 +82,17 @@ int recv_data(int socket_fd){
         //Read from arduino
         char buff[512] = {0};
         int amt_read;
-
-        while(flag){
+        
+        while(!sigint_flag){
                 // buff[amt_read]='\0';
                 // if(buff[0] == 'H'){
                 //         send_to_db(buff);
                 // }
 
                 //Send to python for processing
-	  amt_read = read(socket_fd, buff,(sizeof buff)-1);
-          char* c;
-          char* s;
-          if((c=strchr(buff,':'))&&(s=strchr(buff,','))){
+	        amt_read = read(socket_fd, buff,(sizeof buff)-1);
+	        write(sun_fd, buff, amt_read);
                 
-                write(1, c, strlen(c));
-          }
-	        //write(sun_fd, buff, amt_read);
 	}
     return amt_read;
 }

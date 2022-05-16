@@ -3,7 +3,7 @@
 
 //Debug vital values sent to server
 #ifndef DEBUG
-#define DEBUG
+#define DEBUG 0
 #endif
 
 void get_pt_info();
