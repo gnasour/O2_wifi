@@ -91,7 +91,13 @@ int recv_data(int socket_fd){
 
                 //Send to python for processing
 	  amt_read = read(socket_fd, buff,(sizeof buff)-1);
-	  write(sun_fd, buff, amt_read);
+          char* c;
+          char* s;
+          if((c=strchr(buff,':'))&&(s=strchr(buff,','))){
+                
+                write(1, c, strlen(c));
+          }
+	        //write(sun_fd, buff, amt_read);
 	}
     return amt_read;
 }
