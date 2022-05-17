@@ -24,6 +24,10 @@ void SIG_INT_HANDLER(int signum){
         sigint_flag = 1;
 }
 
+void SIG_PIPE_HANDLER(int signum){
+        _exit(signum);
+}
+
 void get_pt_info(){
         printf("Please enter the first name of the patient: ");
         scanf("%40s", first_name);
@@ -91,8 +95,20 @@ int recv_data(int socket_fd){
 
                 //Send to python for processing
 	        amt_read = read(socket_fd, buff,(sizeof buff)-1);
-	        write(sun_fd, buff, amt_read);
-                
+	        
+                write(sun_fd, buff, amt_read);
+
 	}
     return amt_read;
+}
+
+
+//Initialize the child
+//For now only signal handlers
+void child_init(){
+        struct sigaction sa;
+        sa.sa_handler = SIG_PIPE_HANDLER;
+        sigemptyset(&sa.sa_mask);
+        sa.sa_flags = 0;
+        sigaction(SIGPIPE, &sa, NULL);
 }

@@ -7,7 +7,7 @@
 #endif
 
 void get_pt_info();
-
 int recv_data(int socket_fd);
+void child_init();
 
 #endif
