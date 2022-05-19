@@ -5,7 +5,7 @@
 // #define BLUE_LED 2
 // 
 // const uint16_t port = 1025;
-// const char *host = "192.168.1.199";
+// const char *host = "192.168.1.168";
 // WiFiClient client;
 //   
 // void setup()
@@ -23,6 +23,7 @@
 //      delay(2500);
 //    }
 //      digitalWrite(BLUE_LED, HIGH);
+//      Serial.print("Hi");
 //    
 // }
 //

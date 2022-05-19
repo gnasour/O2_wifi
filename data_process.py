@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import sys
 import os
 import signal
@@ -43,6 +44,7 @@ if pts == None:
 smoothing_size = 20
 
 if graph_flag:
+    plt.ion()
     fig = plt.figure(figsize=(14,8))
     ax1 = fig.add_subplot(111)
     line1, = ax1.plot(np.arange(0,pts),np.zeros((pts,)), linewidth=4,label='Smoothed Data')
@@ -51,7 +53,7 @@ if graph_flag:
     ax1.set_ylabel('Amplitude', fontsize=16)
     ax1.legend(fontsize=16)
     ax1.tick_params(axis='both',which='major',labelsize=16)
-
+    plt.show()
 
 while True:
     t_vec, ir_vec, red_vec, y_vals=[],[],[],[]
