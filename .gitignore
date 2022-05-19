@@ -56,9 +56,12 @@ dkms.conf
 # Emac temp files
 *~
 
-#Database files
+# Database files
 *.db
 data.txt
 
-#Test files
+# Test files
 *test*
+
+# images 
+*.png

@@ -3,7 +3,7 @@
 import socket
 import os
 
-COLLECT_AMT = 250
+COLLECT_AMT = 1800
 FIFO = "myfifo"
 server_address = './Sp_data'
 
