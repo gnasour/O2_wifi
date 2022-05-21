@@ -87,14 +87,15 @@ int recv_data(int socket_fd){
         char buff[512] = {0};
         int amt_read;
         
-        while(!sigint_flag){
+
+        //While the user has NOT entered SIGINT and the device connection is still up
+        while(!(sigint_flag && (amt_read = read(socket_fd, buff,(sizeof buff)-1)) == 0)){
                 // buff[amt_read]='\0';
                 // if(buff[0] == 'H'){
                 //         send_to_db(buff);
                 // }
 
                 //Send to python for processing
-	        amt_read = read(socket_fd, buff,(sizeof buff)-1);
 	        
                 write(sun_fd, buff, amt_read);
 
