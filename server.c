@@ -27,6 +27,15 @@
 
 int main(int argc, char* argv[]){
 
+  int opt = 0;
+
+  while((opt = getopt(argc, argv, "g")) != -1){
+    switch(opt){
+      case 'g':
+        system("./data_process.py -g &");
+    }
+  }
+
   //Server Socket FD, New Request FD
   int sockfd, newfd;
   //Finding the address of the ESP8266
@@ -82,7 +91,7 @@ int main(int argc, char* argv[]){
       int wstatus;
       waitpid(proc_id, &wstatus, 0);
       //syslog(LOG_USER|LOG_DEBUG, "Process: %zd exited with status: %d\n", proc_id, wstatus);
-      fprintf(stderr, "Process: %zd exited with status: %d\n", proc_id, wstatus);
+      fprintf(stderr, "Process: %d exited with status: %d\n", proc_id, wstatus);
     }
   }
 }
