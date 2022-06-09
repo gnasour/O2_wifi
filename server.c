@@ -25,14 +25,20 @@
 #include "dbcon.h"
 
 
+void sigint_handler(int signum){
+  //kill
+}
+
+
 int main(int argc, char* argv[]){
 
   int opt = 0;
-
   while((opt = getopt(argc, argv, "g")) != -1){
     switch(opt){
       case 'g':
-        system("./data_process.py -g &");
+        if(vfork()==0)
+          execv("./data_process.py", argv);
+        break;
     }
   }
 

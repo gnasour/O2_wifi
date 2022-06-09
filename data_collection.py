@@ -9,6 +9,7 @@ server_address = './Sp_data'
 
 #Write all incoming data
 fw = open("data.txt", "w")
+data_flag = open(FIFO, "w")
 
 #Create the Unix Domain Socket
 try:
@@ -36,7 +37,6 @@ while True:
             rcrd_count+=1
     else:
         fw.flush()
-        data_flag = open(FIFO, "w")
         data_flag.write("1")
         data_flag.flush()
         rcrd_count = 0
