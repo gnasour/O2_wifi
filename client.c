@@ -53,7 +53,6 @@ static void register_pt(){
         free(db_res->res);
         free(db_res->col_name);
         free(db_res);
-        
 }
 
 static int send_to_db(const char* info){
@@ -87,17 +86,11 @@ int recv_data(int socket_fd){
         char buff[512] = {0};
         int amt_read;
         
-
         //While the user has NOT entered SIGINT and the device connection is still up
-        while(!(sigint_flag && (amt_read = read(socket_fd, buff,(sizeof buff)-1)) == 0)){
-                // buff[amt_read]='\0';
-                // if(buff[0] == 'H'){
-                //         send_to_db(buff);
-                // }
-
+        while(!sigint_flag && (amt_read = read(socket_fd, buff,sizeof(buff)-1)) >0){
+	  write(1, buff, amt_read);    
                 //Send to python for processing
-	        
-                write(sun_fd, buff, amt_read);
+	  //                write(sun_fd, buff, amt_read);
 
 	}
     return amt_read;

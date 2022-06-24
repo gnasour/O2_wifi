@@ -1,5 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/pi/O2_wifi'
+make: Entering directory '/home/code/O2_wifi'
 gcc server.c client.c dbcon.c -o server -DDEBUG -lsqlite3 -Wall
-make: Leaving directory '/home/pi/O2_wifi'
+make: Leaving directory '/home/code/O2_wifi'
  

@@ -33,14 +33,15 @@ void sigint_handler(int signum){
 int main(int argc, char* argv[]){
 
   int opt = 0;
-  while((opt = getopt(argc, argv, "g")) != -1){
+  while((opt = getopt(argc, argv, "f")) != -1){
     switch(opt){
-      case 'g':
+      case 'f':
         if(vfork()==0)
           execv("./data_process.py", argv);
         break;
     }
   }
+  
 
   //Server Socket FD, New Request FD
   int sockfd, newfd;

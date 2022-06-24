@@ -33,6 +33,11 @@ graph_flag = None
 if "-g" in sys.argv:
     graph_flag = 1
 
+#User option to prompt and save the graph
+save_fig_opt = None
+if "-s" in sys.argv:
+    save_fig_opt = 1
+
 #Gradient Approx. Constants
 pts = None
 heart_rate_span = [10,250]
@@ -126,10 +131,10 @@ while True:
             line2.set_data(scatter_x,scatter_y)
 
             plt.pause(0.001)
-
-            savefig = input("Save Figure? ")
-            if savefig=='y':
-                plt.savefig('gradient_plot.png',dpi=300,facecolor=[252/255,252/255,252/255])
+            if save_fig_opt:
+                savefig = input("Save Figure? ")
+                if savefig=='y':
+                    plt.savefig('gradient_plot.png',dpi=300,facecolor=[252/255,252/255,252/255])
     except:
         os.kill(child_pid, signal.SIGKILL)
         break

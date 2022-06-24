@@ -2,6 +2,7 @@
 
 import socket
 import os
+import sys
 
 COLLECT_AMT = 1800
 FIFO = "myfifo"
@@ -23,12 +24,12 @@ except OSError:
 sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 sock.bind(server_address)
 sock.listen(1)
-print('waiting for a connection')
+print('waiting for a connection', file=sys.stderr)
 connection, client_address = sock.accept()
 
 #Amount of recorded data received from UDS
 rcrd_count = 0
-print('Connection accepted. Begin data collection.')
+print('Connection accepted. Begin data collection.', file=sys.stderr)
 while True:
     if rcrd_count < COLLECT_AMT:
         data = connection.recv(128)
