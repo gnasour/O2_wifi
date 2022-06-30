@@ -27,7 +27,7 @@ sock.listen(1)
 print('waiting for a connection', file=sys.stderr)
 connection, client_address = sock.accept()
 
-#Amount of recorded data received from UDS
+#Amount of recorded data received from Unix Domain Socket
 rcrd_count = 0
 print('Connection accepted. Begin data collection.', file=sys.stderr)
 while True:

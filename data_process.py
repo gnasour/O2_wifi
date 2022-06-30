@@ -14,11 +14,6 @@ FIFO = "myfifo"
 if not os.path.exists(FIFO):
     os.mkfifo(FIFO)
 
-#Start the data collection process
-child_pid = os.fork()
-if child_pid == 0:
-    os.execvp("./data_collection.py", sys.argv)
-
 #IPC to signal data collection is done
 data_flag = open(FIFO)
 
@@ -47,6 +42,16 @@ if '-pts' in sys.argv:
 if pts == None:
     pts = 1800
 smoothing_size = 20
+
+#Start the data collection process
+child_pid = os.fork()
+#Give the data collection process new arguments based on commands entered by users
+#########################WIP#####################
+new_sys_arg = sys.argv.copy()
+new_sys_arg.append("-pts")
+if child_pid == 0:
+    os.execvp("./data_collection.py", sys.argv)
+
 
 if graph_flag:
     plt.ion()

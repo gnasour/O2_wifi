@@ -32,9 +32,12 @@ void sigint_handler(int signum){
 
 int main(int argc, char* argv[]){
 
+
+  //Command line option handling
   int opt = 0;
   while((opt = getopt(argc, argv, "f")) != -1){
     switch(opt){
+      //-f: forking the Heart Rate data processing process
       case 'f':
         if(vfork()==0)
           execv("./data_process.py", argv);
@@ -43,8 +46,10 @@ int main(int argc, char* argv[]){
   }
   
 
-  //Server Socket FD, New Request FD
-  int sockfd, newfd;
+  //Server Socket to handle incoming, new clients
+  int sockfd;
+  //Server child socket to handle client requests
+  int newfd;
   //Finding the address of the ESP8266
   struct addrinfo hints, *res;
   struct sockaddr_storage their_addr;
@@ -90,9 +95,8 @@ int main(int argc, char* argv[]){
       child_init();
       get_pt_info();
 	    recv_data(newfd);
-      
+      _exit(EXIT_SUCCESS);
     }else{
-      
       printf("Parent process, closing socket\n");
       close(newfd);
       int wstatus;
