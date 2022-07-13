@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jun 30 14:09:25 2022
+# Make data base, printed on Tue Jul 12 12:51:34 2022
 
 # Variables
 
@@ -24,8 +24,6 @@ XDG_SESSION_CLASS = user
 VSCODE_AGENT_FOLDER = /home/pi/.vscode-server
 # environment
 XDG_SESSION_TYPE = tty
-# environment
-VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
@@ -41,7 +39,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/pi/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/node
+_ = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9/node
 # makefile (from 'Makefile', line 2)
 CFLAGS = -I.
 # makefile (from 'Makefile', line 1)
@@ -51,29 +49,25 @@ GNUMAKEFLAGS :=
 # environment
 DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
-VSCODE_VERBOSE_LOGGING = true
-# environment
 VSCODE_CWD = /home/pi
 # environment
-SSH_CONNECTION = 192.168.1.168 53769 192.168.1.199 22
+SSH_CONNECTION = 192.168.1.168 57570 192.168.1.199 22
 # environment
-PATH = /home/pi/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/remote-cli:/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+PATH = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9/bin/remote-cli:/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
 TEXTDOMAIN = Linux-PAM
 # environment
-VSCODE_LOG_STACK = false
+ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-445ca874-0678-4bce-aa58-0e085cff3103.sock
+VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-7996c780-9e79-40fc-9017-33c769cd1645.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
 LS_COLORS = 
 # automatic
 %F = $(notdir $%)
-# environment
-VSCODE_PIPE_LOGGING = true
 # environment
 PWD = /home/pi/O2_wifi
 # default
@@ -105,7 +99,7 @@ SHLVL = 0
 # makefile (from 'Makefile', line 1)
 CC = gcc
 # environment
-XDG_SESSION_ID = 4
+XDG_SESSION_ID = 33
 # environment
 USER = pi
 # makefile
@@ -114,6 +108,8 @@ USER = pi
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := make
+# environment
+OLDPWD = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9
 # default
 .VARIABLES := 
 # automatic
@@ -125,13 +121,13 @@ MAKEFLAGS = pqrR
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_CLIENT = 192.168.1.168 53769 22
+SSH_CLIENT = 192.168.1.168 57570 22
 # environment
 MAIL = /var/mail/pi
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
-BROWSER = /home/pi/.vscode-server/bin/30d9c6cd9483b2cc586687151bcbcd635f373630/bin/helpers/browser.sh
+BROWSER = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9/bin/helpers/browser.sh
 # environment
 VSCODE_HANDLES_SIGPIPE = true
 # default
@@ -154,10 +150,8 @@ SUFFIXES :=
 MAKE_HOST := arm-unknown-linux-gnueabihf
 # environment
 LANG = C
-# environment
-VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # variable set hash-table stats:
-# Load=72/1024=7%, Rehash=0, Collisions=9/100=9%
+# Load=69/1024=7%, Rehash=0, Collisions=9/97=9%
 
 # Pattern-specific Variable Values
 
@@ -165,9 +159,9 @@ VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 
 # Directories
 
-# . (device 45826, inode 258150): 25 files, no impossibilities.
+# . (device 45826, inode 258150): 28 files, no impossibilities.
 
-# 25 files, no impossibilities in 1 directories.
+# 28 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -251,12 +245,12 @@ dbcon.h:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 34 / storage = 325 B / avg = 9 B
-# current buf: size = 8174 B / used = 325 B / count = 34 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 37 / storage = 346 B / avg = 9 B
+# current buf: size = 8174 B / used = 346 B / count = 37 / avg = 9 B
 
-# strcache performance: lookups = 52 / hit rate = 34%
+# strcache performance: lookups = 55 / hit rate = 32%
 # hash-table stats:
-# Load=34/8192=0%, Rehash=0, Collisions=1/52=2%
-# Finished Make data base on Thu Jun 30 14:09:25 2022
+# Load=37/8192=0%, Rehash=0, Collisions=1/55=2%
+# Finished Make data base on Tue Jul 12 12:51:34 2022
 
  

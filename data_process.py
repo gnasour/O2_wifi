@@ -4,6 +4,7 @@ import os
 import signal
 import time
 import re
+import send_data
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
@@ -13,9 +14,6 @@ FIFO = "myfifo"
 #Make the named pipe
 if not os.path.exists(FIFO):
     os.mkfifo(FIFO)
-
-#IPC to signal data collection is done
-data_flag = open(FIFO)
 
 #Plot package
 plt.style.use('ggplot')
@@ -52,6 +50,8 @@ new_sys_arg.append("-pts")
 if child_pid == 0:
     os.execvp("./data_collection.py", sys.argv)
 
+#IPC to signal data collection is done
+data_flag = open(FIFO)
 
 if graph_flag:
     plt.ion()
@@ -122,7 +122,9 @@ while True:
         if t_peaks==[]:
             continue
         else:
-            print('BPM: {0:2.1f}'.format(60.0/np.mean(np.diff(t_peaks))))
+            heart_rate = 60.0/np.mean(np.diff(t_peaks))
+            #send_data.send_post(heart_rate, 97)
+            print('BPM: {0:2.1f}'.format(heart_rate))
             if graph_flag:
                 ax1.set_title('{0:2.0f} BPM'.format(60.0/np.mean(np.diff(t_peaks))),fontsize=24)
         

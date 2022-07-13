@@ -6,5 +6,5 @@
         "types.h": "c",
         "dbcon.h": "c"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
 }
