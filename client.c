@@ -89,10 +89,10 @@ int recv_data(int socket_fd){
         //While the user has NOT entered SIGINT and the device connection is still up
         while(!sigint_flag && (amt_read = read(socket_fd, buff,sizeof(buff)-1)) >0){    
 	  
-                //Debug what is written to data process
-	        #ifdef DEBUG
-                write(1,buff,amt_read);
-                #endif
+                // //Debug what is written to data process
+	        // #ifndef DEBUG
+                // write(1,buff,amt_read);
+                // #endif
 
                 //Send to python for processing
                 write(sun_fd, buff, amt_read);

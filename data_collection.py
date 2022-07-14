@@ -34,8 +34,9 @@ while True:
     if rcrd_count < COLLECT_AMT:
         data = connection.recv(128)
         if data:
-            fw.write(data.decode("utf-8"))
-            rcrd_count+=1
+            if not ":0,0" in data.decode("utf-8"):
+                fw.write(data.decode("utf-8"))
+                rcrd_count+=1
     else:
         fw.flush()
         data_flag.write("1")

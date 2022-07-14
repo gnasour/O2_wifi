@@ -1,11 +1,6 @@
 #ifndef __dbcon__
 #define __dbcon__
 
-#ifndef DEBUG
-#define DEBUG 0 //Debug vital values sent to server
-#endif
-
-
 struct db_result{
     int count; //Count of columns in table returned from query
     const unsigned char** res; //Results of the query
