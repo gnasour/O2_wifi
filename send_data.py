@@ -1,8 +1,9 @@
+import random
 import requests
 from datetime import datetime
 
 def send_post(heart_rate, spo2, id = 1):
-
+        spo2 = random.randrange(97,100)
         header = {'X-Api-Key': 'OQi9CrIx.7jme4I0wAtgIplIp3JOWtGa5pW37AFDA', 
         'Content-Type': 'application/json', 
         'Content-Length': '106'}

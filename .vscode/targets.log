@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jul 12 12:51:34 2022
+# Make data base, printed on Wed Jul 13 21:11:03 2022
 
 # Variables
 
@@ -39,7 +39,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9/node
+_ = /home/pi/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/node
 # makefile (from 'Makefile', line 2)
 CFLAGS = -I.
 # makefile (from 'Makefile', line 1)
@@ -51,9 +51,9 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_CWD = /home/pi
 # environment
-SSH_CONNECTION = 192.168.1.168 57570 192.168.1.199 22
+SSH_CONNECTION = 192.168.1.168 50157 192.168.1.199 22
 # environment
-PATH = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9/bin/remote-cli:/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+PATH = /home/pi/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/bin/remote-cli:/home/pi/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -61,7 +61,7 @@ TEXTDOMAIN = Linux-PAM
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-7996c780-9e79-40fc-9017-33c769cd1645.sock
+VSCODE_IPC_HOOK_CLI = /run/user/1000/vscode-ipc-059d2f73-6fd1-4856-9e60-f509cf5a809a.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -99,7 +99,7 @@ SHLVL = 0
 # makefile (from 'Makefile', line 1)
 CC = gcc
 # environment
-XDG_SESSION_ID = 33
+XDG_SESSION_ID = 71
 # environment
 USER = pi
 # makefile
@@ -108,8 +108,6 @@ USER = pi
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := make
-# environment
-OLDPWD = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9
 # default
 .VARIABLES := 
 # automatic
@@ -121,13 +119,13 @@ MAKEFLAGS = pqrR
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_CLIENT = 192.168.1.168 57570 22
+SSH_CLIENT = 192.168.1.168 50157 22
 # environment
 MAIL = /var/mail/pi
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # environment
-BROWSER = /home/pi/.vscode-server/bin/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9/bin/helpers/browser.sh
+BROWSER = /home/pi/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/bin/helpers/browser.sh
 # environment
 VSCODE_HANDLES_SIGPIPE = true
 # default
@@ -151,7 +149,7 @@ MAKE_HOST := arm-unknown-linux-gnueabihf
 # environment
 LANG = C
 # variable set hash-table stats:
-# Load=69/1024=7%, Rehash=0, Collisions=9/97=9%
+# Load=68/1024=7%, Rehash=0, Collisions=9/96=9%
 
 # Pattern-specific Variable Values
 
@@ -159,9 +157,9 @@ LANG = C
 
 # Directories
 
-# . (device 45826, inode 258150): 28 files, no impossibilities.
+# . (device 45826, inode 258150): 30 files, no impossibilities.
 
-# 28 files, no impossibilities in 1 directories.
+# 30 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -183,7 +181,7 @@ all:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-24 10:36:54.768396073
+#  Last modified 2022-07-12 15:49:44.758679839
 #  File has been updated.
 #  Successfully updated.
 
@@ -192,7 +190,7 @@ debug: dbcon.c server.c client.c dbcon.h client.h
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 12):
-	gcc server.c client.c dbcon.c -o server -DDEBUG -lsqlite3 -gstabs
+	gcc server.c client.c dbcon.c -o server -DDEBUG -lsqlite3 -gstabs -Wall
 
 # Not a target:
 client.c:
@@ -205,7 +203,7 @@ compile: dbcon.c server.c client.c dbcon.h client.h
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 9):
-	gcc server.c client.c dbcon.c -o server -DDEBUG -lsqlite3 -Wall
+	gcc server.c client.c dbcon.c -o server -lsqlite3 -Wall
 
 # Not a target:
 .DEFAULT:
@@ -245,12 +243,12 @@ dbcon.h:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 37 / storage = 346 B / avg = 9 B
-# current buf: size = 8174 B / used = 346 B / count = 37 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 39 / storage = 380 B / avg = 9 B
+# current buf: size = 8174 B / used = 380 B / count = 39 / avg = 9 B
 
-# strcache performance: lookups = 55 / hit rate = 32%
+# strcache performance: lookups = 57 / hit rate = 31%
 # hash-table stats:
-# Load=37/8192=0%, Rehash=0, Collisions=1/55=2%
-# Finished Make data base on Tue Jul 12 12:51:34 2022
+# Load=39/8192=0%, Rehash=0, Collisions=1/57=2%
+# Finished Make data base on Wed Jul 13 21:11:03 2022
 
  

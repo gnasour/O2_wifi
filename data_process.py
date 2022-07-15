@@ -65,19 +65,26 @@ if graph_flag:
     ax1.tick_params(axis='both',which='major',labelsize=16)
     plt.show()
 
+###TEMP###
+temp = 0
+
 while True:
     t_vec, ir_vec, red_vec, y_vals=[],[],[],[]
     try:
         if data_flag.read(1):
             for i in range(pts):
-                curr_line = fr.readline()
-                curr_data = re.split(":|,", curr_line[0:-1])
-                if len(curr_data)==3:
-                    try:
-                        t_vec.append(float(curr_data[0])/1000000.0)
-                        y_vals.append(float(curr_data[2]))
-                    except:
-                        continue
+                if temp == 10:
+                    curr_line = fr.readline()
+                    curr_data = re.split(":|,", curr_line[0:-1])
+                    if len(curr_data)==3:
+                        try:
+                            t_vec.append(float(curr_data[0])/1000000.0)
+                            y_vals.append(float(curr_data[2]))
+                        except:
+                            continue
+                else:
+                    fr.readline()
+                    temp+=1
         t1 = time.time()
         samp_rate = 1/np.mean(np.diff(t_vec))
         min_time_bw_samps = (60.0/heart_rate_span[1])
@@ -123,7 +130,7 @@ while True:
             continue
         else:
             heart_rate = 60.0/np.mean(np.diff(t_peaks))
-            #send_data.send_post(heart_rate, 97)
+            #send_data.send_post(int(heart_rate), 97)
             print('BPM: {0:2.1f}'.format(heart_rate))
             if graph_flag:
                 ax1.set_title('{0:2.0f} BPM'.format(60.0/np.mean(np.diff(t_peaks))),fontsize=24)

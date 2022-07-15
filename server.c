@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){
       perror("Error on main loop fork");
     }else if(proc_id == 0){
       child_init();
-      get_pt_info();
+      //get_pt_info();
 	    recv_data(newfd);
       _exit(EXIT_SUCCESS);
     }else{

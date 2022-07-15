@@ -4,7 +4,7 @@ import socket
 import os
 import sys
 
-COLLECT_AMT = 1800
+COLLECT_AMT = 600
 FIFO = "myfifo"
 server_address = './Sp_data'
 
@@ -29,14 +29,14 @@ connection, client_address = sock.accept()
 
 #Amount of recorded data received from Unix Domain Socket
 rcrd_count = 0
+
 print('Connection accepted. Begin data collection.', file=sys.stderr)
 while True:
     if rcrd_count < COLLECT_AMT:
         data = connection.recv(128)
         if data:
-            if not ":0,0" in data.decode("utf-8"):
-                fw.write(data.decode("utf-8"))
-                rcrd_count+=1
+            fw.write(data.decode("utf-8"))
+            rcrd_count+=1
     else:
         fw.flush()
         data_flag.write("1")
