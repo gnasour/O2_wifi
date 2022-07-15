@@ -65,3 +65,6 @@ data.txt
 
 # images 
 *.png
+
+#Misc. Files
+API_INFO
