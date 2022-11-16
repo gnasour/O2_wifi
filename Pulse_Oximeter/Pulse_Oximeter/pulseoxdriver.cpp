@@ -5,6 +5,9 @@
 MAX30105 particleSensor; // initialize MAX30102 with I2C
 unsigned long init_micro_sec;
 
+const int rs = 11, en = 10, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
 void setup()
 {
   Serial.begin(115200);
@@ -13,6 +16,10 @@ void setup()
   Serial.println("");
   Serial.println("MAX30102 getting ready...");
   Serial.println("");
+  lcd.begin(16,2);
+  lcd.print("Hello, World");
+  lcd.setCursor(0,1);
+  lcd.print("bPO2 monitor");
   
 
   pinMode(7, INPUT);
