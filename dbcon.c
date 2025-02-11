@@ -93,7 +93,7 @@ int exec_stmt(const char* stmt, db_result* db_res){
 
 
 /**
- * Initialize the tables of the database
+ * Initialize tables
  * Tables:
  *  *Patient data - HR, SpO2, Temperature, ID, date of collection
  *  *Patient record - First name, Last name, ID
@@ -115,7 +115,7 @@ int exec_stmt(const char* stmt, db_result* db_res){
 /**
  * @brief Closes the active DB connection if there is one
  * 
- * @return int: sqlite_close() return value if non-null DB object and -1 on null DB object
+ * @return int: sqlite3_close() return value if non-null DB object and -1 on null DB object
  * 
  */
 int close_db(void){
@@ -125,8 +125,9 @@ int close_db(void){
     return -1;
   }
 }
+
 /**
- * @brief Initializes the DB object and tables for data collection
+ * @brief Initializes the database and formats its tables to accept patient data
  * 
  */
 void init_db(void){

@@ -12,9 +12,9 @@
 
 static void register_pt();
 
-static char first_name[41];
-static char last_name[41];
-static char* patient_id;
+static char pt_first_name[41];
+static char pt_last_name[41];
+static char* pt_id;
 static int pt_age;
 
 
@@ -29,11 +29,11 @@ void SIG_PIPE_HANDLER(int signum){
 }
 
 void get_pt_info(){
-        printf("Please enter the first name of the patient: ");
-        scanf("%40s", first_name);
-        printf("Please enter the last name of the patient: ");
-        scanf("%40s", last_name);
-        printf("Please enter the age of the patient: ");
+        printf("Patient First Name: ");
+        scanf("%40s", pt_first_name);
+        printf("Patient Last Name: ");
+        scanf("%40s", pt_last_name);
+        printf("Patient Age: ");
         scanf("%d", &pt_age);
         register_pt();
 }
@@ -41,13 +41,13 @@ void get_pt_info(){
 static void register_pt(){
         char prepared_stmt[512];
         db_result* db_res = malloc(sizeof(db_result));
-        sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_first_name='%s' AND pt_last_name='%s';", first_name, last_name);
+        sprintf(prepared_stmt, "SELECT * FROM patient_rcrd WHERE pt_pt_first_name='%s' AND pt_pt_last_name='%s';", pt_first_name, pt_last_name);
         exec_stmt(prepared_stmt, db_res);
         for(int i = 0;i<db_res->count; i++){
                 if(strcmp(db_res->col_name[i], "pt_ID")==0){
-                        patient_id = malloc(sizeof(char*)*(strlen((const char*)db_res->res[i])+1));
-                        patient_id = strcpy(patient_id,(const char*)db_res->res[i]);
-                        printf("%s\n", patient_id);
+                        pt_id = malloc(sizeof(char*)*(strlen((const char*)db_res->res[i])+1));
+                        pt_id = strcpy(pt_id,(const char*)db_res->res[i]);
+                        printf("%s\n", pt_id);
                 }
         }
         free(db_res->res);
@@ -67,7 +67,7 @@ static int send_to_db(const char* info){
         }
         printf("%s\n", info);
         sprintf(prepared_stmt, "INSERT INTO patient_data\
-        VALUES('%s',%d,%d,37,DateTime('NOW'))", patient_id,atoi(hr),atoi(spo2));
+        VALUES('%s',%d,%d,37,DateTime('NOW'))", pt_id,atoi(hr),atoi(spo2));
         exec_stmt(prepared_stmt,NULL);
         return 0;
 }

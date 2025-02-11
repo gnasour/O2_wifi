@@ -1,10 +1,10 @@
 /**
  * @file server.c
  * @author George Nassour
- * @brief Server application that will open up a socket connection for an incoming device 
- *        and create a new process to handle reading and writing data from the said device
+ * @brief Server application using POSIX sockets to receive patient data from an associated medical device
  * @version 0.1
  * @date 2021-10-18
+ *       2025-02-10
  * 
  * 
  */
