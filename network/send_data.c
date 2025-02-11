@@ -12,7 +12,7 @@ int main(){
     int portno =        25346;
     char *host =        "72.134.81.31";
     char *message_fmt = "POST /api/v1/patientdata/ HTTP/1.1\r\n\
-    X-Api-Key: OQi9CrIx.7jme4I0wAtgIplIp3JOWtGa5pW37AFDA\r\n\
+    X-Api-Key: *Change API KEY string*\r\n\
     Content-Type: application/json\r\n\
     Accept: :*\\*\r\n\
     \r\n\
