@@ -130,7 +130,7 @@ while True:
             continue
         else:
             heart_rate = 60.0/np.mean(np.diff(t_peaks))
-            #send_data.send_post(int(heart_rate), 97)
+            send_data.send_post(int(heart_rate), 97)
             print('BPM: {0:2.1f}'.format(heart_rate))
             if graph_flag:
                 ax1.set_title('{0:2.0f} BPM'.format(60.0/np.mean(np.diff(t_peaks))),fontsize=24)

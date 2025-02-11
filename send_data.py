@@ -4,7 +4,8 @@ from datetime import datetime
 
 def send_post(heart_rate, spo2, id = 1):
         spo2 = random.randrange(97,100)
-        header = {'X-Api-Key': 'OQi9CrIx.7jme4I0wAtgIplIp3JOWtGa5pW37AFDA', 
+        api_file = open("API_INFO")
+        header = {'X-Api-Key': api_file.readline(), 
         'Content-Type': 'application/json', 
         'Content-Length': '106'}
         
@@ -14,5 +15,5 @@ def send_post(heart_rate, spo2, id = 1):
                 'recorded_time': datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'patient_rec': str(id)}
 
-        r = requests.post('http://72.134.81.31:25346/api/v1/patientdata/', json=jso, headers = header)
+        r = requests.post(api_file.readline(), json=jso, headers = header)
 
