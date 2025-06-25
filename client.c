@@ -29,11 +29,12 @@ void SIG_PIPE_HANDLER(int signum){
 }
 
 void get_pt_info(){
-        printf("Patient First Name: ");
+        printf("Enter patient info...");
+        printf("First Name: ");
         scanf("%40s", pt_first_name);
-        printf("Patient Last Name: ");
+        printf("Last Name: ");
         scanf("%40s", pt_last_name);
-        printf("Patient Age: ");
+        printf("Age: ");
         scanf("%d", &pt_age);
         register_pt();
 }

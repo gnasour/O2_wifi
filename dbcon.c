@@ -41,8 +41,8 @@ static int open_db(){
 
 /* 
  * Executes any SQL statement sent as an argument and print the results
- * db_results holds any results that the SQL command returns aafter execution 
- * Return: 0 on success, -1 if error executing statement
+ * db_results holds any results that the SQL command returns after execution 
+ * Return: 0 on success, -1 if an error occurs during execution of the statement
  */
 int exec_stmt(const char* stmt, db_result* db_res){
 

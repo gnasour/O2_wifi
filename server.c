@@ -32,7 +32,6 @@ void sigint_handler(int signum){
 
 int main(int argc, char* argv[]){
 
-
   //Command line option handling
   int opt = 0;
   while((opt = getopt(argc, argv, "f")) != -1){
@@ -85,8 +84,10 @@ int main(int argc, char* argv[]){
   
   //Main loop
   while(1){
-    newfd = accept(sockfd, (struct sockaddr *)&their_addr, (socklen_t*)&addr_size);
+
+    newfd = accept(sockfd, (struct sockaddr *) &their_addr, (socklen_t*) &addr_size);
     printf("Connection made with new device\n");
+
     //Create child process to handle the accepted connection
     pid_t proc_id = fork();
     if(proc_id < 0){
@@ -104,6 +105,8 @@ int main(int argc, char* argv[]){
       //syslog(LOG_USER|LOG_DEBUG, "Process: %zd exited with status: %d\n", proc_id, wstatus);
       fprintf(stderr, "Process: %d exited with status: %d\n", proc_id, wstatus);
     }
+
+
   }
 }
 
